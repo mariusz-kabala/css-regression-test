@@ -27,12 +27,11 @@ module.exports = function({
   diffDir,
   testRun,
   logger,
-  reporter,
+  reportTool,
   threshold,
   formatter,
   showOnlyFail
 }) {
-  const reportTool = require('../utils/report')(reporter);
   const passResult = (result) => (
     (showOnlyFail === true && result.status === false) ||
     showOnlyFail === false
@@ -82,7 +81,8 @@ module.exports = function({
           scenario: testNameArr[0],
           testName: testNameArr[2],
           url: testNameArr[1],
-          viewport: `${testNameArr[3]}x${testNameArr[4]}`
+          viewport: `${testNameArr[3]}x${testNameArr[4]}`,
+          fileName
         });
 
         result.status = data.rawMisMatchPercentage > threshold ? false : true;
@@ -105,7 +105,7 @@ module.exports = function({
         }
       }
 
-      resolve(results);
+      resolve({results, testRun});
     });
   });
 }

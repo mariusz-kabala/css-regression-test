@@ -15,7 +15,7 @@ module.exports = function(reporter) {
         reporter !== null &&
         typeof reporter.start === 'function'
       ) {
-        reporter.start(counter);
+        reporter.start(counter+1);
       }
     }
   };

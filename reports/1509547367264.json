@@ -1,0 +1,425 @@
+{
+  "summary": { "Total": 28, "Success": 4, "Fail": 24 },
+  "details": [
+    {
+      "isSameDimensions": false,
+      "dimensionDifference": { "width": 1, "height": 1 },
+      "rawMisMatchPercentage": 1.9686948853615522,
+      "misMatchPercentage": "1.97",
+      "diffBounds": { "top": 0, "left": 0, "bottom": 53, "right": 839 },
+      "analysisTime": 5,
+      "scenario": "Channels",
+      "testName": "24H Auctions Channel",
+      "url": "/en/app/merchant/cars",
+      "viewport": "1680x900",
+      "fileName":
+        "Q2hhbm5lbHMtL2VuL2FwcC9tZXJjaGFudC9jYXJzLTI0SCBBdWN0aW9ucyBDaGFubmVsLTE2ODAtOTAw.png",
+      "status": false
+    },
+    {
+      "isSameDimensions": false,
+      "dimensionDifference": { "width": 0, "height": 1 },
+      "rawMisMatchPercentage": 0.8123617256637168,
+      "misMatchPercentage": "0.81",
+      "diffBounds": { "top": 11, "left": 0, "bottom": 127, "right": 451 },
+      "analysisTime": 7,
+      "scenario": "Channels",
+      "testName": "24H Auctions Channel",
+      "url": "/en/app/merchant/cars",
+      "viewport": "800x600",
+      "fileName":
+        "Q2hhbm5lbHMtL2VuL2FwcC9tZXJjaGFudC9jYXJzLTI0SCBBdWN0aW9ucyBDaGFubmVsLTgwMC02MDA=.png",
+      "status": false
+    },
+    {
+      "isSameDimensions": false,
+      "dimensionDifference": { "width": 0, "height": 1 },
+      "rawMisMatchPercentage": 0.8123617256637168,
+      "misMatchPercentage": "0.81",
+      "diffBounds": { "top": 11, "left": 0, "bottom": 127, "right": 451 },
+      "analysisTime": 5,
+      "scenario": "Channels",
+      "testName": "Instant Purchase Channel",
+      "url": "/en/app/merchant/cars",
+      "viewport": "800x600",
+      "fileName":
+        "Q2hhbm5lbHMtL2VuL2FwcC9tZXJjaGFudC9jYXJzLUluc3RhbnQgUHVyY2hhc2UgQ2hhbm5lbC04MDAtNjAw.png",
+      "status": false
+    },
+    {
+      "isSameDimensions": false,
+      "dimensionDifference": { "width": 1, "height": 1 },
+      "rawMisMatchPercentage": 1.9686948853615522,
+      "misMatchPercentage": "1.97",
+      "diffBounds": { "top": 0, "left": 0, "bottom": 53, "right": 839 },
+      "analysisTime": 7,
+      "scenario": "Channels",
+      "testName": "Instant Purchase Channel",
+      "url": "/en/app/merchant/cars",
+      "viewport": "1680x900",
+      "fileName":
+        "Q2hhbm5lbHMtL2VuL2FwcC9tZXJjaGFudC9jYXJzLUluc3RhbnQgUHVyY2hhc2UgQ2hhbm5lbC0xNjgwLTkwMA==.png",
+      "status": false
+    },
+    {
+      "isSameDimensions": false,
+      "dimensionDifference": { "width": 0, "height": 1 },
+      "rawMisMatchPercentage": 0.8123617256637168,
+      "misMatchPercentage": "0.81",
+      "diffBounds": { "top": 9, "left": 0, "bottom": 127, "right": 451 },
+      "analysisTime": 7,
+      "scenario": "Channels",
+      "testName": "Customer Auction Channel",
+      "url": "/en/app/merchant/cars",
+      "viewport": "800x600",
+      "fileName":
+        "Q2hhbm5lbHMtL2VuL2FwcC9tZXJjaGFudC9jYXJzLUN1c3RvbWVyIEF1Y3Rpb24gQ2hhbm5lbC04MDAtNjAw.png",
+      "status": false
+    },
+    {
+      "isSameDimensions": false,
+      "dimensionDifference": { "width": 1, "height": 1 },
+      "rawMisMatchPercentage": 1.9686948853615522,
+      "misMatchPercentage": "1.97",
+      "diffBounds": { "top": 0, "left": 0, "bottom": 53, "right": 839 },
+      "analysisTime": 5,
+      "scenario": "Channels",
+      "testName": "Customer Auction Channel",
+      "url": "/en/app/merchant/cars",
+      "viewport": "1680x900",
+      "fileName":
+        "Q2hhbm5lbHMtL2VuL2FwcC9tZXJjaGFudC9jYXJzLUN1c3RvbWVyIEF1Y3Rpb24gQ2hhbm5lbC0xNjgwLTkwMA==.png",
+      "status": false
+    },
+    {
+      "isSameDimensions": false,
+      "dimensionDifference": { "width": 1, "height": 1 },
+      "rawMisMatchPercentage": 1.4699959726137737,
+      "misMatchPercentage": "1.47",
+      "diffBounds": { "top": 0, "left": 0, "bottom": 381, "right": 285 },
+      "analysisTime": 10,
+      "scenario": "Filters",
+      "testName": "Color filter",
+      "url": "/en/app/merchant/cars",
+      "viewport": "1680x900",
+      "fileName":
+        "RmlsdGVycy0vZW4vYXBwL21lcmNoYW50L2NhcnMtQ29sb3IgZmlsdGVyLTE2ODAtOTAw.png",
+      "status": false
+    },
+    {
+      "isSameDimensions": false,
+      "dimensionDifference": { "width": 0, "height": 1 },
+      "rawMisMatchPercentage": 1.2372226377461981,
+      "misMatchPercentage": "1.24",
+      "diffBounds": { "top": 68, "left": 0, "bottom": 381, "right": 251 },
+      "analysisTime": 11,
+      "scenario": "Filters",
+      "testName": "Color filter",
+      "url": "/en/app/merchant/cars",
+      "viewport": "800x600",
+      "fileName":
+        "RmlsdGVycy0vZW4vYXBwL21lcmNoYW50L2NhcnMtQ29sb3IgZmlsdGVyLTgwMC02MDA=.png",
+      "status": false
+    },
+    {
+      "isSameDimensions": false,
+      "dimensionDifference": { "width": 1, "height": 1 },
+      "rawMisMatchPercentage": 1.6321464794747238,
+      "misMatchPercentage": "1.63",
+      "diffBounds": { "top": 0, "left": 0, "bottom": 261, "right": 285 },
+      "analysisTime": 7,
+      "scenario": "Filters",
+      "testName": "Body Types filter",
+      "url": "/en/app/merchant/cars",
+      "viewport": "1680x900",
+      "fileName":
+        "RmlsdGVycy0vZW4vYXBwL21lcmNoYW50L2NhcnMtQm9keSBUeXBlcyBmaWx0ZXItMTY4MC05MDA=.png",
+      "status": false
+    },
+    {
+      "isSameDimensions": false,
+      "dimensionDifference": { "width": 0, "height": 1 },
+      "rawMisMatchPercentage": 1.4055494971525506,
+      "misMatchPercentage": "1.41",
+      "diffBounds": { "top": 68, "left": 0, "bottom": 261, "right": 251 },
+      "analysisTime": 9,
+      "scenario": "Filters",
+      "testName": "Body Types filter",
+      "url": "/en/app/merchant/cars",
+      "viewport": "800x600",
+      "fileName":
+        "RmlsdGVycy0vZW4vYXBwL21lcmNoYW50L2NhcnMtQm9keSBUeXBlcyBmaWx0ZXItODAwLTYwMA==.png",
+      "status": false
+    },
+    {
+      "isSameDimensions": false,
+      "dimensionDifference": { "width": 1, "height": 1 },
+      "rawMisMatchPercentage": 1.6415163783584836,
+      "misMatchPercentage": "1.64",
+      "diffBounds": { "top": 0, "left": 0, "bottom": 189, "right": 285 },
+      "analysisTime": 7,
+      "scenario": "Filters",
+      "testName": "Doors filter",
+      "url": "/en/app/merchant/cars",
+      "viewport": "1680x900",
+      "fileName":
+        "RmlsdGVycy0vZW4vYXBwL21lcmNoYW50L2NhcnMtRG9vcnMgZmlsdGVyLTE2ODAtOTAw.png",
+      "status": false
+    },
+    {
+      "isSameDimensions": false,
+      "dimensionDifference": { "width": 0, "height": 1 },
+      "rawMisMatchPercentage": 1.3972431077694236,
+      "misMatchPercentage": "1.40",
+      "diffBounds": { "top": 68, "left": 0, "bottom": 189, "right": 251 },
+      "analysisTime": 5,
+      "scenario": "Filters",
+      "testName": "Doors filter",
+      "url": "/en/app/merchant/cars",
+      "viewport": "800x600",
+      "fileName":
+        "RmlsdGVycy0vZW4vYXBwL21lcmNoYW50L2NhcnMtRG9vcnMgZmlsdGVyLTgwMC02MDA=.png",
+      "status": false
+    },
+    {
+      "isSameDimensions": true,
+      "dimensionDifference": { "width": 0, "height": 0 },
+      "rawMisMatchPercentage": 0,
+      "misMatchPercentage": "0.00",
+      "diffBounds": { "top": 140, "left": 252, "bottom": 0, "right": 0 },
+      "analysisTime": 7,
+      "scenario": "Filters",
+      "testName": "First Registration filter",
+      "url": "/en/app/merchant/cars",
+      "viewport": "800x600",
+      "fileName":
+        "RmlsdGVycy0vZW4vYXBwL21lcmNoYW50L2NhcnMtRmlyc3QgUmVnaXN0cmF0aW9uIGZpbHRlci04MDAtNjAw.png",
+      "status": true
+    },
+    {
+      "isSameDimensions": false,
+      "dimensionDifference": { "width": 1, "height": 0 },
+      "rawMisMatchPercentage": 0.34965034965034963,
+      "misMatchPercentage": "0.35",
+      "diffBounds": { "top": 0, "left": 285, "bottom": 139, "right": 285 },
+      "analysisTime": 4,
+      "scenario": "Filters",
+      "testName": "First Registration filter",
+      "url": "/en/app/merchant/cars",
+      "viewport": "1680x900",
+      "fileName":
+        "RmlsdGVycy0vZW4vYXBwL21lcmNoYW50L2NhcnMtRmlyc3QgUmVnaXN0cmF0aW9uIGZpbHRlci0xNjgwLTkwMA==.png",
+      "status": false
+    },
+    {
+      "isSameDimensions": false,
+      "dimensionDifference": { "width": 1, "height": 1 },
+      "rawMisMatchPercentage": 1.3120057512580876,
+      "misMatchPercentage": "1.31",
+      "diffBounds": { "top": 0, "left": 0, "bottom": 213, "right": 285 },
+      "analysisTime": 6,
+      "scenario": "Filters",
+      "testName": "Fuel Types filter",
+      "url": "/en/app/merchant/cars",
+      "viewport": "1680x900",
+      "fileName":
+        "RmlsdGVycy0vZW4vYXBwL21lcmNoYW50L2NhcnMtRnVlbCBUeXBlcyBmaWx0ZXItMTY4MC05MDA=.png",
+      "status": false
+    },
+    {
+      "isSameDimensions": false,
+      "dimensionDifference": { "width": 0, "height": 1 },
+      "rawMisMatchPercentage": 1.0310043020323394,
+      "misMatchPercentage": "1.03",
+      "diffBounds": { "top": 68, "left": 0, "bottom": 213, "right": 251 },
+      "analysisTime": 6,
+      "scenario": "Filters",
+      "testName": "Fuel Types filter",
+      "url": "/en/app/merchant/cars",
+      "viewport": "800x600",
+      "fileName":
+        "RmlsdGVycy0vZW4vYXBwL21lcmNoYW50L2NhcnMtRnVlbCBUeXBlcyBmaWx0ZXItODAwLTYwMA==.png",
+      "status": false
+    },
+    {
+      "isSameDimensions": false,
+      "dimensionDifference": { "width": 0, "height": 1 },
+      "rawMisMatchPercentage": 1.4388120839733742,
+      "misMatchPercentage": "1.44",
+      "diffBounds": { "top": 68, "left": 0, "bottom": 309, "right": 251 },
+      "analysisTime": 11,
+      "scenario": "Filters",
+      "testName": "Equipment filter",
+      "url": "/en/app/merchant/cars",
+      "viewport": "800x600",
+      "fileName":
+        "RmlsdGVycy0vZW4vYXBwL21lcmNoYW50L2NhcnMtRXF1aXBtZW50IGZpbHRlci04MDAtNjAw.png",
+      "status": false
+    },
+    {
+      "isSameDimensions": false,
+      "dimensionDifference": { "width": 1, "height": 1 },
+      "rawMisMatchPercentage": 1.6546356868937513,
+      "misMatchPercentage": "1.65",
+      "diffBounds": { "top": 0, "left": 0, "bottom": 309, "right": 285 },
+      "analysisTime": 11,
+      "scenario": "Filters",
+      "testName": "Equipment filter",
+      "url": "/en/app/merchant/cars",
+      "viewport": "1680x900",
+      "fileName":
+        "RmlsdGVycy0vZW4vYXBwL21lcmNoYW50L2NhcnMtRXF1aXBtZW50IGZpbHRlci0xNjgwLTkwMA==.png",
+      "status": false
+    },
+    {
+      "isSameDimensions": false,
+      "dimensionDifference": { "width": 1, "height": 0 },
+      "rawMisMatchPercentage": 0.34965034965034963,
+      "misMatchPercentage": "0.35",
+      "diffBounds": { "top": 0, "left": 285, "bottom": 239, "right": 285 },
+      "analysisTime": 12,
+      "scenario": "Filters",
+      "testName": "Location filter",
+      "url": "/en/app/merchant/cars",
+      "viewport": "1680x900",
+      "fileName":
+        "RmlsdGVycy0vZW4vYXBwL21lcmNoYW50L2NhcnMtTG9jYXRpb24gZmlsdGVyLTE2ODAtOTAw.png",
+      "status": false
+    },
+    {
+      "isSameDimensions": true,
+      "dimensionDifference": { "width": 0, "height": 0 },
+      "rawMisMatchPercentage": 0,
+      "misMatchPercentage": "0.00",
+      "diffBounds": { "top": 240, "left": 252, "bottom": 0, "right": 0 },
+      "analysisTime": 9,
+      "scenario": "Filters",
+      "testName": "Location filter",
+      "url": "/en/app/merchant/cars",
+      "viewport": "800x600",
+      "fileName":
+        "RmlsdGVycy0vZW4vYXBwL21lcmNoYW50L2NhcnMtTG9jYXRpb24gZmlsdGVyLTgwMC02MDA=.png",
+      "status": true
+    },
+    {
+      "isSameDimensions": false,
+      "dimensionDifference": { "width": 1, "height": 0 },
+      "rawMisMatchPercentage": 0.8526700572155118,
+      "misMatchPercentage": "0.85",
+      "diffBounds": { "top": 0, "left": 108, "bottom": 439, "right": 285 },
+      "analysisTime": 17,
+      "scenario": "Filters",
+      "testName": "Manufacturers filter",
+      "url": "/en/app/merchant/cars",
+      "viewport": "1680x900",
+      "fileName":
+        "RmlsdGVycy0vZW4vYXBwL21lcmNoYW50L2NhcnMtTWFudWZhY3R1cmVycyBmaWx0ZXItMTY4MC05MDA=.png",
+      "status": false
+    },
+    {
+      "isSameDimensions": true,
+      "dimensionDifference": { "width": 0, "height": 0 },
+      "rawMisMatchPercentage": 0.5380536494073612,
+      "misMatchPercentage": "0.54",
+      "diffBounds": { "top": 121, "left": 108, "bottom": 437, "right": 163 },
+      "analysisTime": 14,
+      "scenario": "Filters",
+      "testName": "Manufacturers filter",
+      "url": "/en/app/merchant/cars",
+      "viewport": "800x600",
+      "fileName":
+        "RmlsdGVycy0vZW4vYXBwL21lcmNoYW50L2NhcnMtTWFudWZhY3R1cmVycyBmaWx0ZXItODAwLTYwMA==.png",
+      "status": false
+    },
+    {
+      "isSameDimensions": false,
+      "dimensionDifference": { "width": 1, "height": 0 },
+      "rawMisMatchPercentage": 0.34965034965034963,
+      "misMatchPercentage": "0.35",
+      "diffBounds": { "top": 0, "left": 285, "bottom": 139, "right": 285 },
+      "analysisTime": 6,
+      "scenario": "Filters",
+      "testName": "Mileage filter",
+      "url": "/en/app/merchant/cars",
+      "viewport": "1680x900",
+      "fileName":
+        "RmlsdGVycy0vZW4vYXBwL21lcmNoYW50L2NhcnMtTWlsZWFnZSBmaWx0ZXItMTY4MC05MDA=.png",
+      "status": false
+    },
+    {
+      "isSameDimensions": true,
+      "dimensionDifference": { "width": 0, "height": 0 },
+      "rawMisMatchPercentage": 0,
+      "misMatchPercentage": "0.00",
+      "diffBounds": { "top": 140, "left": 252, "bottom": 0, "right": 0 },
+      "analysisTime": 3,
+      "scenario": "Filters",
+      "testName": "Mileage filter",
+      "url": "/en/app/merchant/cars",
+      "viewport": "800x600",
+      "fileName":
+        "RmlsdGVycy0vZW4vYXBwL21lcmNoYW50L2NhcnMtTWlsZWFnZSBmaWx0ZXItODAwLTYwMA==.png",
+      "status": true
+    },
+    {
+      "isSameDimensions": false,
+      "dimensionDifference": { "width": 1, "height": 0 },
+      "rawMisMatchPercentage": 0.34965034965034963,
+      "misMatchPercentage": "0.35",
+      "diffBounds": { "top": 0, "left": 285, "bottom": 139, "right": 285 },
+      "analysisTime": 5,
+      "scenario": "Filters",
+      "testName": "Power filter",
+      "url": "/en/app/merchant/cars",
+      "viewport": "1680x900",
+      "fileName":
+        "RmlsdGVycy0vZW4vYXBwL21lcmNoYW50L2NhcnMtUG93ZXIgZmlsdGVyLTE2ODAtOTAw.png",
+      "status": false
+    },
+    {
+      "isSameDimensions": true,
+      "dimensionDifference": { "width": 0, "height": 0 },
+      "rawMisMatchPercentage": 0,
+      "misMatchPercentage": "0.00",
+      "diffBounds": { "top": 140, "left": 252, "bottom": 0, "right": 0 },
+      "analysisTime": 3,
+      "scenario": "Filters",
+      "testName": "Power filter",
+      "url": "/en/app/merchant/cars",
+      "viewport": "800x600",
+      "fileName":
+        "RmlsdGVycy0vZW4vYXBwL21lcmNoYW50L2NhcnMtUG93ZXIgZmlsdGVyLTgwMC02MDA=.png",
+      "status": true
+    },
+    {
+      "isSameDimensions": false,
+      "dimensionDifference": { "width": 0, "height": 1 },
+      "rawMisMatchPercentage": 0.5263157894736842,
+      "misMatchPercentage": "0.53",
+      "diffBounds": { "top": 189, "left": 0, "bottom": 189, "right": 251 },
+      "analysisTime": 6,
+      "scenario": "Filters",
+      "testName": "Promotios filter",
+      "url": "/en/app/merchant/cars",
+      "viewport": "800x600",
+      "fileName":
+        "RmlsdGVycy0vZW4vYXBwL21lcmNoYW50L2NhcnMtUHJvbW90aW9zIGZpbHRlci04MDAtNjAw.png",
+      "status": false
+    },
+    {
+      "isSameDimensions": false,
+      "dimensionDifference": { "width": 1, "height": 1 },
+      "rawMisMatchPercentage": 0.8741258741258742,
+      "misMatchPercentage": "0.87",
+      "diffBounds": { "top": 0, "left": 0, "bottom": 189, "right": 285 },
+      "analysisTime": 5,
+      "scenario": "Filters",
+      "testName": "Promotios filter",
+      "url": "/en/app/merchant/cars",
+      "viewport": "1680x900",
+      "fileName":
+        "RmlsdGVycy0vZW4vYXBwL21lcmNoYW50L2NhcnMtUHJvbW90aW9zIGZpbHRlci0xNjgwLTkwMA==.png",
+      "status": false
+    }
+  ]
+}

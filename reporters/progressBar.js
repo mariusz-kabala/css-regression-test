@@ -9,11 +9,16 @@ module.exports = {
     )
   },
   tick(data) {
-    this.bar.tick();
+    if (data !== null && typeof data !== 'undefined') {
+      this.bar.interrupt(
+        typeof data === 'string' ? data : prettyjson.render(data)
+      );
 
-    if (typeof data === 'object' && data !== null) {
-      this.bar.interrupt(prettyjson.render(data));
-      this.bar.interrupt('------------------');
+      if (typeof data !== 'string') {
+        this.bar.interrupt('------------------');
+      }
     }
+
+    this.bar.tick();
   }
 }

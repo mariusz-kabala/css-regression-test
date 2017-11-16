@@ -51,6 +51,11 @@ program
     'Save images diff in indicated dir. If dir is not provided default one will be used',
     constants.DIFF_DIR
   )
+  .option(
+    '--save [value]',
+    'Save the result of the test run so it can be checked later',
+    'file'
+  )
   .parse(process.argv);
 
 function getReporter() {
@@ -62,6 +67,9 @@ function getReporter() {
 
 function getResultFormatter() {
   switch (program.formatter) {
+    case 'json':
+      return require('./formatters/result/json');
+
     default:
       return require('./formatters/result/console');
   }
@@ -69,8 +77,18 @@ function getResultFormatter() {
 
 function getResultsFormatter() {
   switch (program.formatter) {
+    case 'json':
+      return require('./formatters/results/json');
+
     default:
       return require('./formatters/results/console');
+  }
+}
+
+function getResultsSaver() {
+  switch (program.save) {
+    default:
+      return require('./saveTestResults/file');
   }
 }
 
@@ -111,14 +129,13 @@ function getResultsFormatter() {
   }
 
   if (program.rawArgs.indexOf('--results') > -1) {
-    const results = require('./commands/results');
+    const resultsProvider = require('./commands/results');
+    const reportTool = require('./utils/report')(reporter);
 
     logger.info('Running results...');
 
-    let testResults;
-
     try {
-      testResults = await results({
+      const { results, testRun } = await resultsProvider({
         screenshotsDir: program.testDir,
         targetDir: program.targetDir,
         testRun: program.results,
@@ -127,17 +144,25 @@ function getResultsFormatter() {
         diffDir: program.saveFailedDiff,
         formatter: getResultFormatter(),
         logger,
-        reporter
+        reportTool
       });
+
+      const testResultsFormatter = getResultsFormatter();
+      const formattedResults = testResultsFormatter(results);
+
+      reportTool.reportProgress(formattedResults);
+
+      if (program.rawArgs.indexOf('--save') > -1) { // save the results
+        const reportSaver = getResultsSaver();
+
+        try {
+          await reportSaver(formattedResults, testRun);
+        } catch (e) {
+          logger.error('Saving the report failed', e);
+        }
+      }
     } catch (e) {
       logger.error('Command RESULTS failed', e);
-      return;
     }
-
-    const testResultsFormatter = getResultsFormatter();
-
-    console.log(
-      testResultsFormatter(testResults)
-    );
   }
 })();
