@@ -1,0 +1,8 @@
+{
+  "plugins": [
+    "transform-async-to-generator",
+    "transform-class-properties",
+    "transform-object-assign",
+    "transform-object-rest-spread"
+  ]
+}
