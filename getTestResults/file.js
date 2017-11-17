@@ -4,10 +4,10 @@ const fs = require('fs');
 const readDir = dir => new Promise((resolve, reject) => {
   fs.readdir(dir, (err, items) => {
     if (err) {
-      return reject(err)
+      return reject(err);
     }
 
-    resolve(items)
+    resolve(items);
   });
 });
 
