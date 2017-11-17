@@ -1,6 +1,7 @@
 const program = require('commander');
 const constants = require('./constants');
 const logger = require('./utils/logger');
+const loader = require('./utils/loader');
 
 program
   .version('0.0.1')
@@ -58,42 +59,8 @@ program
   )
   .parse(process.argv);
 
-function getReporter() {
-  switch (program.reporter) {
-    default:
-      return require('./reporters/progressBar');
-  }
-}
-
-function getResultFormatter() {
-  switch (program.formatter) {
-    case 'json':
-      return require('./formatters/result/json');
-
-    default:
-      return require('./formatters/result/console');
-  }
-}
-
-function getResultsFormatter() {
-  switch (program.formatter) {
-    case 'json':
-      return require('./formatters/results/json');
-
-    default:
-      return require('./formatters/results/console');
-  }
-}
-
-function getResultsSaver() {
-  switch (program.save) {
-    default:
-      return require('./saveTestResults/file');
-  }
-}
-
 (async () => {
-  const reporter = getReporter();
+  const reporter = loader.getReporter(program.reporter);
 
   if (program.run === true) {
     const run = require('./commands/run');
@@ -142,18 +109,18 @@ function getResultsSaver() {
         threshold: program.threshold,
         showOnlyFail: program.showOnlyFail,
         diffDir: program.saveFailedDiff,
-        formatter: getResultFormatter(),
+        formatter: loader.getResultFormatter(program.formatter),
         logger,
         reportTool
       });
 
-      const testResultsFormatter = getResultsFormatter();
+      const testResultsFormatter = loader.getResultsFormatter(program.formatter);
       const formattedResults = testResultsFormatter(results);
 
       reportTool.reportProgress(formattedResults);
 
       if (program.rawArgs.indexOf('--save') > -1) { // save the results
-        const reportSaver = getResultsSaver();
+        const reportSaver = loader.getResultsSaver(program.save);
 
         try {
           await reportSaver(formattedResults, testRun);

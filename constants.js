@@ -1,7 +1,14 @@
+const resolve = require('path').resolve;
+
 module.exports = {
-  SCREENSHOTS_DIR: './screenshots/tests',
-  TARGETS_DIR: './screenshots/targets',
-  DIFF_DIR: './screenshots/diff',
-  SCENARIOS_DIR: './scenarios',
-  REPORTS_DIR: './reports'
+  SCREENSHOTS_DIR: resolve('./screenshots/tests'),
+  TARGETS_DIR: resolve('./screenshots/targets'),
+  DIFF_DIR: resolve('./screenshots/diff'),
+  SCENARIOS_DIR: resolve('./scenarios'),
+  REPORTS_DIR: resolve('./reports'),
+  modules: {
+    REPORTER: 'progressBar',
+    RESULTS_FORMATTER: 'console',
+    RESULTS_SAVER: 'file'
+  }
 }
