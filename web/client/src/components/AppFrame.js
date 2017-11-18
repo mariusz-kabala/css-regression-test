@@ -95,17 +95,13 @@ const styles = theme => ({
     },
   },
   root: {
-    display: 'flex',
-    alignItems: 'stretch',
+    display: 'relative',
     minHeight: '100vh',
     width: '100%',
-  },
-  grow: {
-    flex: '1 1 auto',
+    padding: '96px 40px'
   },
   title: {
     marginLeft: 24,
-    flex: '0 1 auto',
   },
   appBar: {
     transition: theme.transitions.create('width'),
@@ -130,7 +126,7 @@ const styles = theme => ({
     [theme.breakpoints.up('lg')]: {
       display: 'none',
     },
-  },
+  }
 });
 
 class AppFrame extends React.Component<any, any> {

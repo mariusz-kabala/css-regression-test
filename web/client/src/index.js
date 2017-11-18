@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import AppFrame from './components/AppFrame';
+import TestBlock from './components/TestBlock';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { createStore, applyMiddleware, compose } from 'redux';
@@ -26,6 +27,7 @@ ReactDOM.render(
     <AppContainer>
       <AppFrame>
         <div></div>
+        <TestBlock />
       </AppFrame>
     </AppContainer>
   </Provider>,
