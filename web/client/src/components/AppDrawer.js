@@ -14,6 +14,7 @@ import AppDrawerNavItem from './AppDrawerNavItem';
 import Link from './Link';
 import { pageToTitle } from '../utils/helpers';
 import { fetchScenariosListIfNeeded } from '../actions/init';
+import TestRunsList from './TestRunsList';
 
 const styles = theme => ({
   paper: {
@@ -119,6 +120,9 @@ class AppDrawer extends React.Component {
             <Divider absolute />
           </Toolbar>
         </div>
+        <div>
+          <TestRunsList />
+        </div>
         <List>
           <AppDrawerNavItem title={'Channels'}>
             { items }
@@ -180,4 +184,4 @@ export default compose(
       onReady: () => dispatch(fetchScenariosListIfNeeded())
     })
   )
-)(AppDrawer)
+)(AppDrawer);
