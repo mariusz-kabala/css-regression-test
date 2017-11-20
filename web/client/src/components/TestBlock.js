@@ -7,7 +7,6 @@ import Collapse from 'material-ui/transitions/Collapse';
 import ExpandMoreIcon from 'material-ui-icons/ExpandMore';
 import Button from 'material-ui/Button';
 import Card, { CardHeader, CardContent, CardMedia, CardActions } from 'material-ui/Card';
-import Zooming from 'zooming'
 
 const styles = theme => ({
   testCard: {
@@ -27,9 +26,22 @@ const styles = theme => ({
     }),
   },
   expandBtn__open: { transform: 'rotate(180deg)' },
-  testCard__subheader: {
+  testCard__subheader_container: {
     padding: '0 16px 16px'
   },
+  testCard__subheader: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    fontSize: '14px'
+  },
+  subHeader__status: {
+    marginRight: 16,
+    fontSize: '20px',
+    fontWeight: 600
+  },
+  subHeader__status_succeeded: { color: '#149414' },
+  subHeader__status_failed: { color: '#e00707' },
   imgsContainer: {
     position: 'relative',
     display: 'flex',
@@ -51,12 +63,11 @@ const styles = theme => ({
         fontSize: '18px',
         fontWeight: 600,
         color: '#222'
-      },
-      // img: { maxWidth: '100%' }
+      }
     }
   },
   testImg: {
-    flex: '1 0 30%',
+    flex: '1 1 30%',
     position: 'relative',
     margin: '0 16px 16px 0',
     padding: '8px 8px 8px 0',
@@ -85,14 +96,41 @@ const styles = theme => ({
 });
 
 class TestBlock extends React.Component {
-  state = { expanded: true };
+  constructor(props) {
+    super(props)
+
+    if ( props.status == true ) {
+      this.state = { expanded: false };
+    }
+    else {
+      this.state = { expanded: true };
+    }
+  }
 
   handleExpandClick = () => { this.setState({ expanded: !this.state.expanded }); }
 
   renderSubheader() {
-    const { viewport, url } = this.props;
+    const { classes, viewport, url, misMatchPercentage, status } = this.props;
+
+    var disStatus;
+    var statusClass;
+    if ( status == true ) {
+      disStatus = 'SUCCEEDED';
+      statusClass = classes.subHeader__status_succeeded;
+    }
+    else {
+      disStatus = 'FAILED';
+      statusClass = classes.subHeader__status_failed;
+    }
+    
     return (
-      <span>{ url } | { viewport }</span>
+      <div className={classes.testCard__subheader}>
+        <span>{ url } | { viewport }</span>
+        <div>
+          <span className={classNames(classes.subHeader__status, statusClass)}>{ disStatus }</span>
+          <span>Percentage Difference: { misMatchPercentage }</span>
+        </div>
+      </div>
     )
   }
 
@@ -123,7 +161,7 @@ class TestBlock extends React.Component {
       <Card className={classes.testCard}>
         <CardHeader title={ testName } />
 
-        <CardContent className={classes.testCard__subheader}>{ this.renderSubheader() }</CardContent>
+        <CardContent className={classes.testCard__subheader_container}>{ this.renderSubheader() }</CardContent>
 
         <ExpandMoreIcon
           className={classNames(classes.expandBtn, { [classes.expandBtn__open]: this.state.expanded })}
@@ -134,7 +172,7 @@ class TestBlock extends React.Component {
             <div className={classes.imgsContainer} >
               <div className={classes.testImg}>
                 <figure>
-                  <img data-action="zoom" src={ testImage } />
+                  <img src={ testImage } />
                   <figcaption>Test</figcaption>
                 </figure>
                 <a className={ classes.testImgLink }
@@ -144,7 +182,7 @@ class TestBlock extends React.Component {
 
               <div className={classes.testImg}>
                 <figure>
-                  <img data-action="zoom" src={ diffImage } />
+                  <img src={ diffImage } />
                   <figcaption>Difference</figcaption>
                 </figure>
                 <a className={ classes.testImgLink }
@@ -154,7 +192,7 @@ class TestBlock extends React.Component {
 
               <div className={classes.testImg}>
                 <figure>
-                  <img data-action="zoom" src={ targetImage } />
+                  <img src={ targetImage } />
                   <figcaption>Original</figcaption>
                 </figure>
                 <a className={ classes.testImgLink }

@@ -32,6 +32,9 @@ NProgress.configure({
 const styles = theme => ({
   '@global': {
     html: {
+      fontFamily: 'Lato, sans-serif',
+      fontWeight: '200',
+      color: '#222',
       background: theme.palette.background.default,
       WebkitFontSmoothing: 'antialiased', // Antialiasing.
       MozOsxFontSmoothing: 'grayscale', // Antialiasing.
