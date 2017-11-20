@@ -10,7 +10,10 @@ import Card, { CardHeader, CardContent, CardMedia, CardActions } from 'material-
 import Zooming from 'zooming'
 
 const styles = theme => ({
-  testCard: { position: 'relative' },
+  testCard: {
+    position: 'relative',
+    minWidth: '240px'
+  },
   expandBtn: {
     position: 'absolute',
     top: 8,
@@ -27,13 +30,17 @@ const styles = theme => ({
   imgsContainer: {
     position: 'relative',
     display: 'flex',
-    marginBottom: '24px',
+    marginBottom: '16px',
+    paddingBottom: '16px',
     width: '100%',
+    flexWrap: 'wrap',
+    minHeight: '200px',
 
     '@global': {
       figure: {
         display: 'table',
         margin: 0,
+        maxWidth: '100%'
       },
       figcaption: {
         display: 'table-caption',
@@ -41,18 +48,16 @@ const styles = theme => ({
         fontSize: '18px',
         fontWeight: 600,
         color: '#222'
-      }
+      },
+      // img: { maxWidth: '100%' }
     }
   },
   testImg: {
-    flex: '1 1 33%',
+    flex: '1 0 30%',
     position: 'relative',
+    margin: '0 16px 16px 0',
     padding: '8px 8px 8px 0',
     boxSizing: 'border-box',
-
-    '@global': {
-      img: { height: '240px' }
-    }
   },
   testImgLink: {
     fontSize: '12px',
@@ -88,30 +93,23 @@ class TestBlock extends React.Component {
     return <span>{ url } | { viewport }</span>
   }
 
-  openNewTab() {
-    window.open('https://goo.gl/8ikX6L', '_blank');
-  }
-
   getTargetImageUrl() {
     const { fileName } = this.props;
-
     return `/api/v1/images/targets/${fileName}`;
   }
 
   getDiffImageUrl() {
     const { fileName, testID } = this.props;
-
     return `/api/v1/test-runs/${testID}/images/${fileName}/diff`;
   }
 
   getTestImageUrl() {
     const { fileName, testID } = this.props;
-
     return `/api/v1/test-runs/${testID}/images/${fileName}/test`;
   }
 
-  getOpenNewTab() {
-    // to do 
+  getOpenNewTab(img) {
+    window.open(img, '_blank');
   }
 
   render() {
@@ -141,24 +139,30 @@ class TestBlock extends React.Component {
                 </figure>
                 <a
                   className={ classes.testImgLink }
-                  onClick={ this.getOpenNewTab(testImage) }
-                >
-                  Open image in new tab
-                </a>
+                  onClick={ () => this.getOpenNewTab(testImage) }
+                >Open image in new tab</a>
               </div>
+
               <div className={classes.testImg}>
                 <figure>
-                  <img data-action="zoom" src={ this.getDiffImageUrl() } />
+                  <img data-action="zoom" src={ diffImage } />
                   <figcaption>Difference</figcaption>
                 </figure>
-                <a className={classes.testImgLink} onClick={this.openNewTab}>Open image in new tab</a>
+                <a
+                  className={ classes.testImgLink }
+                  onClick={ () => this.getOpenNewTab(diffImage) }
+                >Open image in new tab</a>
               </div>
+
               <div className={classes.testImg}>
                 <figure>
-                  <img data-action="zoom" src={ this.getTargetImageUrl() } />
+                  <img data-action="zoom" src={ targetImage } />
                   <figcaption>Original</figcaption>
                 </figure>
-                <a className={classes.testImgLink} onClick={this.openNewTab}>Open image in new tab</a>
+                <a
+                  className={ classes.testImgLink }
+                  onClick={ () => this.getOpenNewTab(targetImage) }
+                >Open image in new tab</a>
               </div>
             </div>
 

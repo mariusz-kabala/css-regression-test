@@ -6,7 +6,8 @@ import { withStyles } from 'material-ui/styles';
 const styles = theme => ({
   scenarioTitle: {
     padding: 10,
-    backgroundColor: '#00B4CE',
+    backgroundColor: '#6e14ff',
+    background: 'linear-gradient(45deg, #a900ff 20%, #6e14ff 60%)',
   },
   scenarioTitleText: {
     color: '#fff',
