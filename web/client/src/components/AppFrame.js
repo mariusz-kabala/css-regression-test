@@ -86,15 +86,9 @@ const styles = theme => ({
       },
     },
     '@keyframes nprogress-pulse': {
-      '30%': {
-        opacity: 0.6,
-      },
-      '60%': {
-        opacity: 0,
-      },
-      to: {
-        opacity: 0.6,
-      },
+      '30%': { opacity: 0.6 },
+      '60%': { opacity: 0 },
+      to: { opacity: 0.6 },
     },
   },
   root: {
@@ -107,6 +101,7 @@ const styles = theme => ({
     marginLeft: 24,
   },
   appBar: {
+    background: 'linear-gradient(60deg, #8f42ff 40%, #c099ff 80%)',
     transition: theme.transitions.create('width'),
     '@media print': {
       position: 'absolute',

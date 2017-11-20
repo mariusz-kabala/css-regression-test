@@ -7,7 +7,7 @@ const styles = theme => ({
   scenarioTitle: {
     padding: 10,
     backgroundColor: '#6e14ff',
-    background: 'linear-gradient(45deg, #a900ff 20%, #6e14ff 60%)',
+    background: 'linear-gradient(60deg, #8f42ff 40%, #c099ff 80%)',
   },
   scenarioTitleText: {
     color: '#fff',

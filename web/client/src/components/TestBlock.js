@@ -86,7 +86,7 @@ const styles = theme => ({
     padding: '8px'
   },
   testBtn: {
-    background: 'linear-gradient(45deg, #6e14ff 40%, #a900ff 80%)',
+    background: '#8f42ff',
     borderRadius: 4,
     border: 0,
     color: 'white',
