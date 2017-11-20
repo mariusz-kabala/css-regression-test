@@ -27,6 +27,9 @@ const styles = theme => ({
     }),
   },
   expandBtn__open: { transform: 'rotate(180deg)' },
+  testCard__subheader: {
+    padding: '0 16px 16px'
+  },
   imgsContainer: {
     position: 'relative',
     display: 'flex',
@@ -84,13 +87,13 @@ const styles = theme => ({
 class TestBlock extends React.Component {
   state = { expanded: true };
 
-  handleExpandClick = () => {
-    this.setState({ expanded: !this.state.expanded });
-  }
+  handleExpandClick = () => { this.setState({ expanded: !this.state.expanded }); }
 
   renderSubheader() {
     const { viewport, url } = this.props;
-    return <span>{ url } | { viewport }</span>
+    return (
+      <span>{ url } | { viewport }</span>
+    )
   }
 
   getTargetImageUrl() {
@@ -108,9 +111,7 @@ class TestBlock extends React.Component {
     return `/api/v1/test-runs/${testID}/images/${fileName}/test`;
   }
 
-  getOpenNewTab(img) {
-    window.open(img, '_blank');
-  }
+  getOpenNewTab(img) { window.open(img, '_blank'); }
 
   render() {
     const { children, classes, testName } = this.props;
@@ -120,10 +121,9 @@ class TestBlock extends React.Component {
 
     return (
       <Card className={classes.testCard}>
-        <CardHeader
-          title={ testName }
-          subheader={ this.renderSubheader() }
-        />
+        <CardHeader title={ testName } />
+
+        <CardContent className={classes.testCard__subheader}>{ this.renderSubheader() }</CardContent>
 
         <ExpandMoreIcon
           className={classNames(classes.expandBtn, { [classes.expandBtn__open]: this.state.expanded })}
@@ -137,9 +137,8 @@ class TestBlock extends React.Component {
                   <img data-action="zoom" src={ testImage } />
                   <figcaption>Test</figcaption>
                 </figure>
-                <a
-                  className={ classes.testImgLink }
-                  onClick={ () => this.getOpenNewTab(testImage) }
+                <a className={ classes.testImgLink }
+                   onClick={ () => this.getOpenNewTab(testImage) }
                 >Open image in new tab</a>
               </div>
 
@@ -148,8 +147,7 @@ class TestBlock extends React.Component {
                   <img data-action="zoom" src={ diffImage } />
                   <figcaption>Difference</figcaption>
                 </figure>
-                <a
-                  className={ classes.testImgLink }
+                <a className={ classes.testImgLink }
                   onClick={ () => this.getOpenNewTab(diffImage) }
                 >Open image in new tab</a>
               </div>
@@ -159,9 +157,8 @@ class TestBlock extends React.Component {
                   <img data-action="zoom" src={ targetImage } />
                   <figcaption>Original</figcaption>
                 </figure>
-                <a
-                  className={ classes.testImgLink }
-                  onClick={ () => this.getOpenNewTab(targetImage) }
+                <a className={ classes.testImgLink }
+                   onClick={ () => this.getOpenNewTab(targetImage) }
                 >Open image in new tab</a>
               </div>
             </div>
