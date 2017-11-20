@@ -110,6 +110,10 @@ class TestBlock extends React.Component {
     return `/api/v1/test-runs/${testID}/images/${fileName}/test`;
   }
 
+  getOpenNewTab() {
+    // to do 
+  }
+
   render() {
     const { children, classes, testName } = this.props;
     const testImage = this.getTestImageUrl();
