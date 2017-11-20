@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
-import AppFrame from './components/AppFrame';
 import TestBlock from './components/TestBlock';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { createStore, applyMiddleware, compose } from 'redux';
 import rootReducer from './reducers';
+import Router from './router';
 
 import 'babel-core/register';
 import 'babel-polyfill';
@@ -25,10 +25,7 @@ const store = compose(
 ReactDOM.render(
   <Provider store={ store }>
     <AppContainer>
-      <AppFrame>
-        <div></div>
-        <TestBlock />
-      </AppFrame>
+      <Router />
     </AppContainer>
   </Provider>,
   document.getElementById('root')

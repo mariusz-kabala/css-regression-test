@@ -9,6 +9,7 @@ module.exports = {
   modules: {
     REPORTER: 'progressBar',
     RESULTS_FORMATTER: 'console',
-    RESULTS_SAVER: 'file'
+    RESULTS_SAVER: 'file',
+    IMAGES_SAVER: 'file' 
   }
 }

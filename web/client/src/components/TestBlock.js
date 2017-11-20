@@ -1,4 +1,3 @@
-/* eslint-disable flowtype/require-valid-file-annotation */
 import React from 'react';
 import compose from 'recompose/compose';
 import classNames from 'classnames';
@@ -77,7 +76,7 @@ const styles = theme => ({
   }
 });
 
-class TestBlock extends React.Component<any, any> {
+class TestBlock extends React.Component {
   state = { expanded: true };
 
   handleExpandClick = () => {
@@ -85,20 +84,42 @@ class TestBlock extends React.Component<any, any> {
   }
 
   renderSubheader() {
-    return <span>123</span>
+    const { viewport, url } = this.props;
+    return <span>{ url } | { viewport }</span>
   }
 
   openNewTab() {
     window.open('https://goo.gl/8ikX6L', '_blank');
   }
 
+  getTargetImageUrl() {
+    const { fileName } = this.props;
+
+    return `/api/v1/images/targets/${fileName}`;
+  }
+
+  getDiffImageUrl() {
+    const { fileName, testID } = this.props;
+
+    return `/api/v1/test-runs/${testID}/images/${fileName}/diff`;
+  }
+
+  getTestImageUrl() {
+    const { fileName, testID } = this.props;
+
+    return `/api/v1/test-runs/${testID}/images/${fileName}/test`;
+  }
+
   render() {
-    const { children, classes } = this.props;
+    const { children, classes, testName } = this.props;
+    const testImage = this.getTestImageUrl();
+    const diffImage = this.getDiffImageUrl();
+    const targetImage = this.getTargetImageUrl();
 
     return (
       <Card className={classes.testCard}>
         <CardHeader
-          title="URL Avatar"
+          title={ testName }
           subheader={ this.renderSubheader() }
         />
 
@@ -111,21 +132,26 @@ class TestBlock extends React.Component<any, any> {
             <div className={classes.imgsContainer} >
               <div className={classes.testImg}>
                 <figure>
-                  <img data-action="zoom" src="https://goo.gl/8ikX6L"/>
+                  <img data-action="zoom" src={ testImage } />
                   <figcaption>Test</figcaption>
                 </figure>
-                <a className={classes.testImgLink} onClick={this.openNewTab}>Open image in new tab</a>
+                <a
+                  className={ classes.testImgLink }
+                  onClick={ this.getOpenNewTab(testImage) }
+                >
+                  Open image in new tab
+                </a>
               </div>
               <div className={classes.testImg}>
                 <figure>
-                  <img data-action="zoom" src="https://goo.gl/8ikX6L"/>
+                  <img data-action="zoom" src={ this.getDiffImageUrl() } />
                   <figcaption>Difference</figcaption>
                 </figure>
                 <a className={classes.testImgLink} onClick={this.openNewTab}>Open image in new tab</a>
               </div>
               <div className={classes.testImg}>
                 <figure>
-                  <img data-action="zoom" src="https://goo.gl/8ikX6L"/>
+                  <img data-action="zoom" src={ this.getTargetImageUrl() } />
                   <figcaption>Original</figcaption>
                 </figure>
                 <a className={classes.testImgLink} onClick={this.openNewTab}>Open image in new tab</a>

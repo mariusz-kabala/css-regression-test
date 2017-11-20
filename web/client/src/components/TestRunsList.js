@@ -7,6 +7,8 @@ import compose from 'recompose/compose';
 import { withStyles } from 'material-ui/styles';
 import { connect } from 'react-redux';
 import { fetchTestRunsListIfNeeded } from '../actions/testRuns';
+import { goToTestDetailsIfNeeded } from '../actions/goToTest';
+import { withRouter } from 'react-router';
 
 const styles = theme => ({
   customWidth: {
@@ -29,7 +31,11 @@ export class TestRunsList extends React.Component {
   }
 
   handleChange = (event, index, value) => {
+    const { history, onGoToTest } = this.props;
 
+    if (typeof onGoToTest === 'function') {
+      onGoToTest(event.target.value, history);
+    }
   }
 
   render() {
@@ -43,15 +49,15 @@ export class TestRunsList extends React.Component {
           Choose test run
         </InputLabel>
         <Select
-          value={ null }
+          value={ '' }
           onChange={ this.handleChange }
           className={ classes.customWidth }
-          input={ <Input id="testRunsList" /> }
+          input={ <Input id="testRunsList" value="" /> }
         >
           { testRuns.map(testRun => {
             return (
-              <MenuItem value={ testRun }>
-                { new Date(testRun) }
+              <MenuItem key={ `id-${testRun}` } value={ testRun }>
+                { testRun }
               </MenuItem>
             )
           }) }
@@ -64,21 +70,22 @@ export class TestRunsList extends React.Component {
 TestRunsList.propTypes = {
   classes: PropTypes.object.isRequired,
   onReady: PropTypes.func,
+  onGoToTest: PropTypes.func,
   testRuns: PropTypes.array.isRequired,
-  onTestChange: PropTypes.func,
   isLoading: PropTypes.bool.isRequired
 }
 
 export default compose(
+  withRouter,
   withStyles(styles),
   connect(
     state => ({
-      isLoading: false,
-      testRuns: []
+      isLoading: state.isLoading.testRuns,
+      testRuns: state.testRuns
     }),
     dispatch => ({
       onReady: () => dispatch(fetchTestRunsListIfNeeded()),
-      onTestChange: testID => null
+      onGoToTest: (testID, history) => dispatch(goToTestDetailsIfNeeded(testID, history))
     })
   )
 )(TestRunsList);

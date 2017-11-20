@@ -42,5 +42,11 @@ module.exports = {
       default:
         return require('../getSingleTestResult/file');
     }
+  },
+  getImagesManager: function(name=constants.modules.IMAGES_SAVER) {
+    switch (name) {
+      default:
+        return require('../images/file');
+    }
   }
 }

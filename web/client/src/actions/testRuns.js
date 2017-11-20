@@ -17,7 +17,7 @@ export const receiveTestRunsListFailed = () => ({
   type: RECEIVE_TEST_RUNS_LIST_FAIL
 });
 
-export const isTestRunsListLoaded = state => state.loaded.testRuns;
+const isTestRunsListLoaded = state => state.loaded.testRuns;
 
 export function fetchTestRunsListIfNeeded() {
   return async function(dispatch, getState) {
