@@ -66,11 +66,11 @@ export class TestDetailsContainer extends React.Component {
           <svg className={ classes.circleChart } viewBox="0 0 33.83098862 33.83098862" width="180" height="180">
             <circle className={ classes.circleChart__background } stroke="#fafafa" strokeWidth="2" fill="none" cx="16.91549431" cy="16.91549431" r="15.91549431" />
             <circle className={ classes.circleChart__circle } stroke="#8f42ff" strokeWidth="2" strokeDasharray={`${testSucceeded}, 100`} strokeLinecap="round" fill="none" cx="16.91549431" cy="16.91549431" r="15.91549431" />
-            <text x="16.91549431" y="15" alignmentBaseline="central" textAnchor="middle" fontSize="8">{ testSucceeded }%</text>
-            <text x="16.91549431" y="22" alignmentBaseline="central" textAnchor="middle" fontSize="2.8">
+            <text x="16.91549431" y="14" alignmentBaseline="central" textAnchor="middle" fontSize="8">{ testSucceeded }%</text>
+            <text x="16.91549431" y="22" alignmentBaseline="central" textAnchor="middle" fontSize="2.4">Successful test</text>
+            <text x="16.91549431" y="26" alignmentBaseline="central" textAnchor="middle" fontSize="2.8">
               { summary.Success } / { summary.Total }
             </text>
-            <text x="16.91549431" y="26" alignmentBaseline="central" textAnchor="middle" fontSize="2.4">Successful test</text>
           </svg>
         </div>
       </div>
