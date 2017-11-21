@@ -14,10 +14,6 @@ const styles = theme => ({
     margin: '20px 0'
   },
   testSummary: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    alignItems: 'center',
-    justifyContent: 'center',
     marginBottom: 16,
     padding: 16,
     background: 'linear-gradient(60deg, #8f42ff14 40%, #8f42ff58 80%)',
@@ -36,15 +32,17 @@ const styles = theme => ({
       }
     }
   },
-  testSummary__title: {
-    flexShrink: 0,
-    flexBasis: '100%',
-    fontSize: 20
+  testSummary__title: { fontSize: 20 },
+  testSummary__details: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   circleChart__circle: {
-  transform: 'rotate(-90deg)',
-  transformOrigin: 'center'
-}
+    transform: 'rotate(-90deg)',
+    transformOrigin: 'center'
+  }
 });
 
 export class TestDetailsContainer extends React.Component {
@@ -64,26 +62,15 @@ export class TestDetailsContainer extends React.Component {
     return (
       <div className={classes.testSummary}>
         <h1 className={classes.testSummary__title}>details and url</h1>
-        <div>
-          <p>
-            <span>Total Tests:</span>
-            <span>{ summary.Total }</span>
-          </p>
-          <p>
-            <span>Successful Test:</span>
-            <span>{ summary.Success }</span>
-          </p>
-          <p>
-            <span>Failed Test:</span>
-            <span>{ summary.Fail }</span>
-          </p>
-        </div>
-        <div>
+        <div className={classes.testSummary__details}>
           <svg className={ classes.circleChart } viewBox="0 0 33.83098862 33.83098862" width="180" height="180">
-            <circle className={ classes.circleChart__background } stroke="#efefef" strokeWidth="2" fill="none" cx="16.91549431" cy="16.91549431" r="15.91549431" />
+            <circle className={ classes.circleChart__background } stroke="#fafafa" strokeWidth="2" fill="none" cx="16.91549431" cy="16.91549431" r="15.91549431" />
             <circle className={ classes.circleChart__circle } stroke="#8f42ff" strokeWidth="2" strokeDasharray={`${testSucceeded}, 100`} strokeLinecap="round" fill="none" cx="16.91549431" cy="16.91549431" r="15.91549431" />
-            <text x="16.91549431" y="15.5" alignmentBaseline="central" textAnchor="middle" fontSize="8">{ testSucceeded }%</text>
-            <text x="16.91549431" y="20.5" alignmentBaseline="central" textAnchor="middle" fontSize="2">Successful test</text>
+            <text x="16.91549431" y="15" alignmentBaseline="central" textAnchor="middle" fontSize="8">{ testSucceeded }%</text>
+            <text x="16.91549431" y="22" alignmentBaseline="central" textAnchor="middle" fontSize="2.8">
+              { summary.Success } / { summary.Total }
+            </text>
+            <text x="16.91549431" y="26" alignmentBaseline="central" textAnchor="middle" fontSize="2.4">Successful test</text>
           </svg>
         </div>
       </div>
