@@ -1,5 +1,3 @@
-
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -42,7 +40,11 @@ const styles = theme => ({
     flexShrink: 0,
     flexBasis: '100%',
     fontSize: 20
-  }
+  },
+  circleChart__circle: {
+  transform: 'rotate(-90deg)',
+  transformOrigin: 'center'
+}
 });
 
 export class TestDetailsContainer extends React.Component {
@@ -57,7 +59,7 @@ export class TestDetailsContainer extends React.Component {
   renderSummaryDetails() {
     const { classes, summary } = this.props;
 
-    const testSucceeded = ( summary.Success/summary.Total * 100 ).toFixed(2)
+    const testSucceeded = ( summary.Success/summary.Total * 100 ).toFixed(1)
 
     return (
       <div className={classes.testSummary}>
@@ -77,7 +79,12 @@ export class TestDetailsContainer extends React.Component {
           </p>
         </div>
         <div>
-          { testSucceeded }
+          <svg className={ classes.circleChart } viewBox="0 0 33.83098862 33.83098862" width="180" height="180">
+            <circle className={ classes.circleChart__background } stroke="#efefef" strokeWidth="2" fill="none" cx="16.91549431" cy="16.91549431" r="15.91549431" />
+            <circle className={ classes.circleChart__circle } stroke="#8f42ff" strokeWidth="2" strokeDasharray={`${testSucceeded}, 100`} strokeLinecap="round" fill="none" cx="16.91549431" cy="16.91549431" r="15.91549431" />
+            <text x="16.91549431" y="15.5" alignmentBaseline="central" textAnchor="middle" fontSize="8">{ testSucceeded }%</text>
+            <text x="16.91549431" y="20.5" alignmentBaseline="central" textAnchor="middle" fontSize="2">Successful test</text>
+          </svg>
         </div>
       </div>
     )
