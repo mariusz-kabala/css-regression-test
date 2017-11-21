@@ -57,11 +57,11 @@ export class TestDetailsContainer extends React.Component {
   renderSummaryDetails() {
     const { classes, summary } = this.props;
 
-    let testPer = "30"
+    const testSucceeded = ( summary.Success/summary.Total * 100 ).toFixed(2)
 
     return (
       <div className={classes.testSummary}>
-        <div className={classes.testSummary__title}>details and url</div>
+        <h1 className={classes.testSummary__title}>details and url</h1>
         <div>
           <p>
             <span>Total Tests:</span>
@@ -77,7 +77,7 @@ export class TestDetailsContainer extends React.Component {
           </p>
         </div>
         <div>
-          circle
+          { testSucceeded }
         </div>
       </div>
     )
