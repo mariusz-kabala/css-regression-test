@@ -152,7 +152,7 @@ class TestBlock extends React.Component {
   getOpenNewTab(img) { window.open(img, '_blank'); }
 
   render() {
-    const { children, classes, testName } = this.props;
+    const { children, classes, testName, rawMisMatchPercentage } = this.props;
     const testImage = this.getTestImageUrl();
     const diffImage = this.getDiffImageUrl();
     const targetImage = this.getTargetImageUrl();
@@ -180,15 +180,17 @@ class TestBlock extends React.Component {
                 >Open image in new tab</a>
               </div>
 
-              <div className={classes.testImg}>
-                <figure>
-                  <img src={ diffImage } />
-                  <figcaption>Difference</figcaption>
-                </figure>
-                <a className={ classes.testImgLink }
-                  onClick={ () => this.getOpenNewTab(diffImage) }
-                >Open image in new tab</a>
-              </div>
+              { rawMisMatchPercentage != 0 ?
+                <div className={classes.testImg}>
+                  <figure>
+                    <img src={ diffImage } />
+                    <figcaption>Difference</figcaption>
+                  </figure>
+                  <a className={ classes.testImgLink }
+                    onClick={ () => this.getOpenNewTab(diffImage) }
+                  >Open image in new tab</a>
+                </div>
+              : null }
 
               <div className={classes.testImg}>
                 <figure>
