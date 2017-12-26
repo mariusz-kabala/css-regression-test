@@ -15,12 +15,9 @@ module.exports = {
     username: 'wkda',
     password: 'mehrAutos'
   },
-  getCookie: () => {
-    return [
-      {
-        action: 'url',
-        value: '/en/merchant/signin'
-      },
+  getCookie: () => ({
+    url: '/en/merchant/signin',
+    todo: [
       {
         action: 'waitForSelector',
         value: 'form[name=user_signin]'
@@ -41,8 +38,8 @@ module.exports = {
       },
       {
         action: 'submit',
-        value: 'form[name=user_signin]'
+        value: 'button[type=submit].btn-primary'
       }
-    ];
-  }
+    ]
+  })
 }

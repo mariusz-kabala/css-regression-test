@@ -1,5 +1,6 @@
 const puppeteer = require('puppeteer');
 const _ = require('lodash');
+const constants = require('../constants');
 
 class PuppeteerDriver {
   constructor({scenario, workingDir, defaultConfig, url, logger}) {
@@ -9,6 +10,23 @@ class PuppeteerDriver {
     this.defaultConfig = defaultConfig;
     this.url = url;
     this.logger = logger;
+    this.cookies = []
+
+    this.actionsMapper = {
+      [constants.actions.WAIT_FOR_SELECTOR]: this.actionWaitForSelector.bind(this),
+      [constants.actions.FILL]: this.actionFill.bind(this),
+      [constants.actions.SUBMIT]: this.actionSubmit.bind(this),
+      [constants.actions.CLICK]: this.actionClick.bind(this),
+      [constants.actions.SELECTOR]: this.actionSelector.bind(this)
+    }
+  }
+
+  setCookies(cookies) {
+    if (Array.isArray(cookies) === false) {
+      throw new Exception('You can only provide an array of cookies')
+    }
+
+    this.cookies = cookies;
   }
 
   init() {
@@ -19,6 +37,61 @@ class PuppeteerDriver {
         resolve();
       });
     });
+  }
+
+  findActionExecutor(actionName) {
+    if (typeof this.actionsMapper[actionName] === 'undefined') {
+      this.logger.error(`Invalid action name provided - ${actionName}`);
+      return undefined;
+    }
+
+    return this.actionsMapper[actionName];
+  }
+
+  actionWaitForSelector(page, name, value) {
+    this.logger.debug('Waiting for selector', value);
+
+    return page.waitForSelector(value);
+  }
+
+  actionFill(page, name, value) {
+    this.logger.debug(`Filling the from with selector ${value.field}`);
+
+    return new Promise(async (resolve, reject) => {
+      await page.click(value.field);
+      await page.keyboard.type(value.value);
+
+      resolve();
+    });
+  }
+
+  actionSubmit(page, name, value) {
+    this.logger.debug(`Submiting a from using the selector ${value}`);
+
+    return new Promise(async (resolve, reject) => {
+      await page.click(value);
+      await page.waitForNavigation();
+
+      resolve();
+    });
+  }
+
+  actionClick(page, name, value) {
+    this.logger.debug('Clicking on element', value);
+    return new Promise(async (resolve, reject) => {
+      try {
+        await page.click(value);
+      } catch (e) {
+        this.logger.error('Can not click on element', e);
+      }
+
+      resolve();
+    });
+  }
+
+  actionSelector(page, name, value) {
+    this.logger.debug('Taking screenshot of', value);
+    return this.takeScreenshot(page, name, {selector: value});
   }
 
   screenshotDOMElement(page, opts = {}) {
@@ -92,38 +165,45 @@ class PuppeteerDriver {
     });
   }
 
+  runObjectScenario(page, name, todo) {
+    return new Promise(async (resolve, reject) => {
+      for (let key of Object.keys(todo)) {
+        const action = this.findActionExecutor(key);
+        const keyValue = todo[key];
+
+        await action(page, name, keyValue);
+      }
+
+      resolve(page);
+    });
+  }
+
+  runArrayScenario(page, name, todo) {
+    return new Promise(async (resolve, reject) => {
+      for (let x = 0; x < todo.length; x += 1) {
+        const step = todo[x];
+        const action = this.findActionExecutor(step.action);
+        await action(page, name, step.value);
+      }
+
+      resolve(page);
+    });
+  }
+
   runTest(page, testCase) {
     const todo = _.get(testCase, 'todo');
     const name = _.get(testCase, 'name');
 
-    return new Promise(async (resolve, reject) => {
-      for (let key of Object.keys(todo)) {
-        const keyValue = todo[key];
-
-        switch (key) {
-          case 'waitForSelector':
-            this.logger.debug('Waiting for selector', keyValue);
-            await page.waitForSelector(keyValue);
-            break;
-
-          case 'click':
-            this.logger.debug('Clicking on element', keyValue);
-            try {
-              await page.click(keyValue);
-            } catch (e) {
-              this.logger.error('Can not click on element', e);
-            }
-            break;
-
-          case 'selector':
-            this.logger.debug('Taking screenshot of', keyValue);
-            await this.takeScreenshot(page, name, {selector: keyValue});
-            break;
-        }
-      }
-
-      resolve();
-    });
+    if (Array.isArray(todo) === true) {
+      return this.runArrayScenario(page, name, todo);
+    } else if (_.isObject(todo) === true) {
+      return this.runObjectScenario(page, name, todo);
+    } else {
+      this.logger.error(`Invalid scenario format, please check ${name} scenario`);
+      return new Promise((resolve, reject) => {
+        reject(`Invalid scenario format, please check ${name} scenario`);
+      });
+    }
   }
 
   setViewport(page, viewport) {
@@ -134,10 +214,15 @@ class PuppeteerDriver {
     page.setViewport(viewport);
   }
 
+  applyCookies(page) {
+    this.cookies.forEach(cookie => {
+      page.setCookie(cookie)
+    });
+  }
+
   execute() {
     return new Promise(async (resolve, reject) => {
       const page = await this.browser.newPage();
-
       const authenticate = this.getValue('authenticate');
       const url = this.getUrl();
       const waitForSelector = this.getValue('waitForSelector');
@@ -156,20 +241,31 @@ class PuppeteerDriver {
         await page.authenticate(authenticate);
       }
 
+      this.applyCookies(page);
+
       this.logger.info(`Opening URL: ${url}`);
       await page.goto(url);
 
-      if (Array.isArray(viewPorts) === true) {
-        for (let viewport of viewPorts) {
-          this.setViewport(page, viewport);
-          await runTestCases();
+      if (Array.isArray(tests) === true) {
+        if (Array.isArray(viewPorts) === true) {
+          for (let viewport of viewPorts) {
+            this.setViewport(page, viewport);
+            await runTestCases();
+          }
+        } else {
+          runTestCases();
         }
-      } else {
-        runTestCases();
-      }
 
-      resolve();
+        resolve();
+      } else {
+        this.logger.debug('Running single test case');
+        resolve(await this.runTest(page, this.scenario));
+      }
     });
+  }
+
+  cookies() {
+    return this.browser.cookies()
   }
 
   async close() {

@@ -10,6 +10,13 @@ module.exports = {
     REPORTER: 'progressBar',
     RESULTS_FORMATTER: 'console',
     RESULTS_SAVER: 'file',
-    IMAGES_SAVER: 'file' 
+    IMAGES_SAVER: 'file'
+  },
+  actions: {
+    WAIT_FOR_SELECTOR: 'waitForSelector',
+    FILL: 'fill',
+    SUBMIT: 'submit',
+    CLICK: 'click',
+    SELECTOR: 'selector'
   }
 }

@@ -8,6 +8,7 @@ program
   .option('-u, --url [value]', 'Website url, where tests should run')
   .option('-n, --testName [value]', 'Name for tests run')
   .option('--run', 'Run test cases')
+  .option('-c, --generateCookie', 'Runs a scenario in order to generate auth cookie')
   .option(
     '-t, --threshold <n>',
     'Change the amount of difference that will be tolerated before marking a test screenshot as "failed"',
@@ -61,6 +62,22 @@ program
 
 (async () => {
   const reporter = loader.getReporter(program.reporter);
+  let cookies = [];
+
+  if (program.generateCookie === true) {
+    const generateCookie = require('./commands/generateCookie');
+    logger.info('Generating a cookie...');
+
+    try {
+      cookies = await generateCookie({
+        url: program.url,
+        logger
+      });
+    } catch (e) {
+      logger.error('Command GENERATE COOKIE failed', e);
+      return;
+    }
+  }
 
   if (program.run === true) {
     const run = require('./commands/run');
@@ -72,7 +89,8 @@ program
         url: program.url,
         screenshotsDir: program.testDir,
         logger,
-        reporter
+        reporter,
+        cookies
       });
     } catch(e) {
       logger.error('Command RUN failed', e);

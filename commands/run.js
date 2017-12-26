@@ -2,11 +2,11 @@ const fs = require('fs');
 const readScenarios = require('../utils/readScenarios');
 const Driver = require('../drivers/puppeteer');
 const defaultConfig = require('../default');
-const constants = require('./constants');
+const constants = require('../constants');
 
 const makeWorkingDir = (testName, screenshotsDir, logger) => new Promise((resolve, reject) => {
   const subdir = (typeof testName === 'undefined') ? Date.now() : testName
-  const dir = `./${screenshotsDir}/${subdir}`
+  const dir = `${screenshotsDir}/${subdir}`
 
   if (fs.existsSync(dir) === true) {
     return reject(`Test dir ${dir} already exists please use different name`);
@@ -26,7 +26,8 @@ module.exports = function({
   url,
   screenshotsDir,
   logger,
-  reporter
+  reporter,
+  cookies
 }) {
   const reportTool = require('../utils/report')(reporter);
 
@@ -53,6 +54,7 @@ module.exports = function({
         url
       });
       await driver.init();
+      await driver.setCookies(cookies);
       await driver.execute();
       await driver.close();
 
