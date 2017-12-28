@@ -18,3 +18,18 @@ export const fetchTestDetails = testID => new Promise((resolve, reject) => {
     .then(json => resolve(json))
     .catch(error => reject(error));
 });
+
+export const createNewTestRun = data => new Promise((resolve, reject) => {
+  console.log(data)
+  fetch(`/api/v1/test-runs/create`, {
+    method: 'post',
+    body: JSON.stringify(data),
+    headers: {
+      'Accept': 'application/json, text/plain, */*',
+      'Content-Type': 'application/json'
+    }
+  })
+    .then(response => response.json())
+    .then(json => resolve(json))
+    .catch(error => reject(error));
+})

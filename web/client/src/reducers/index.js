@@ -13,12 +13,21 @@ import {
   RECEIVE_TEST_DETAILS_FAIL
 } from '../actions/testDetails';
 import { GO_TO_TEST_DETAILS } from '../actions/goToTest';
+import {
+  OPEN_NEW_TEST_RUN_POPUP,
+  CLOSE_NEW_TEST_RUN_POPUP
+} from '../actions/scheduleNewTestRun';
+import {
+  UPDATE_AMOUNT_OF_RUNNING_PROCESSES
+} from '../actions/io';
 
 const initalStore = {
   scenarios: [],
   testRuns: [],
   testDetails: {},
   currentTestDetailsID: null,
+  isNewTestRunPopupOpen: false,
+  amountOfRunningProcesses: 0,
   isLoading: {
     scenarios: false,
     testRuns: false,
@@ -58,6 +67,18 @@ function receiveTestRunsList(state, action) {
   });
 }
 
+function openNewTestRunPopup(state, action) {
+  return Object.assign({}, state, {
+    isNewTestRunPopupOpen: true
+  })
+}
+
+function closeNewTestRunPopup(state, action) {
+  return Object.assign({}, state, {
+    isNewTestRunPopupOpen: false
+  })
+}
+
 function requestTestDetails(state, action) {
   const { testID } = action;
 
@@ -74,6 +95,14 @@ function receiveTestDetails(state, action) {
     testDetails: Object.assign({}, state.testDetails, {
       [testID]: testDetails
     })
+  });
+}
+
+function updateAmountOfRunningProcesses(state, action) {
+  const { amount } = action;
+
+  return Object.assign({}, state, {
+    amountOfRunningProcesses: amount
   });
 }
 
@@ -107,6 +136,15 @@ export default function reducers(state = initalStore, action) {
 
     case GO_TO_TEST_DETAILS:
       return goToTestDetails(state, action);
+
+    case OPEN_NEW_TEST_RUN_POPUP:
+      return openNewTestRunPopup(state, action);
+
+    case CLOSE_NEW_TEST_RUN_POPUP:
+      return closeNewTestRunPopup(state, action);
+
+    case UPDATE_AMOUNT_OF_RUNNING_PROCESSES:
+      return updateAmountOfRunningProcesses(state, action);
   }
 
   return state

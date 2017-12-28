@@ -5,19 +5,23 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
 import NProgress from 'nprogress';
-// import Router from 'next/router';
 import { withStyles } from 'material-ui/styles';
 import Typography from 'material-ui/Typography';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import IconButton from 'material-ui/IconButton';
 import Tooltip from 'material-ui/Tooltip';
+import Button from 'material-ui/Button';
 import MenuIcon from 'material-ui-icons/Menu';
 import LightbulbOutline from 'material-ui-icons/LightbulbOutline';
 import FormatTextdirectionLToR from 'material-ui-icons/FormatTextdirectionLToR';
 import FormatTextdirectionRToL from 'material-ui-icons/FormatTextdirectionRToL';
 import AppDrawer from './AppDrawer';
 import { pageToTitle } from '../utils/helpers';
+import NewTestRunPopup from './NewTestRunPopup';
+import ProcessesInfo from './ProcessesInfo';
+import { connectToSocket } from '../actions/io';
+import { openNewTestRunPopup } from '../actions/scheduleNewTestRun';
 
 // @todo Disaply a progress bar between route transitions
 NProgress.configure({
@@ -124,10 +128,13 @@ const styles = theme => ({
     [theme.breakpoints.up('lg')]: {
       display: 'none',
     },
+  },
+  button: {
+    marginLeft: '30px'
   }
 });
 
-class AppFrame extends React.Component<any, any> {
+class AppFrame extends React.Component {
   state = {
     mobileOpen: false,
   };
@@ -136,8 +143,22 @@ class AppFrame extends React.Component<any, any> {
     this.setState({ mobileOpen: !this.state.mobileOpen });
   };
 
+  handleStartNewTest = event => {
+    const { onStartNewTestRunButtonClick } = this.props;
+
+    onStartNewTestRunButtonClick();
+
+    event.preventDefault();
+  }
+
+  componentDidMount() {
+    const { onReady } = this.props;
+
+    onReady();
+  }
+
   render() {
-    const { children, classes } = this.props;
+    const { children, classes, isNewTestRunPopupOpen } = this.props;
 
     const uiTheme = {
       paletteType: 'light',
@@ -177,6 +198,17 @@ class AppFrame extends React.Component<any, any> {
               CSS Regression Tests
             </Typography>
 
+            <Button
+              onClick={this.handleStartNewTest}
+              color="primary"
+              raised
+              className={classes.button}
+            >
+              Start new test
+            </Button>
+
+            <ProcessesInfo />
+
           </Toolbar>
         </AppBar>
         <AppDrawer
@@ -186,6 +218,7 @@ class AppFrame extends React.Component<any, any> {
           mobileOpen={this.state.mobileOpen}
         />
         {children}
+        <NewTestRunPopup open={ isNewTestRunPopupOpen } />
       </div>
     );
   }
@@ -194,10 +227,20 @@ class AppFrame extends React.Component<any, any> {
 AppFrame.propTypes = {
   children: PropTypes.node.isRequired,
   classes: PropTypes.object.isRequired,
+  isNewTestRunPopupOpen: PropTypes.bool.isRequired,
+  onReady: PropTypes.func.isRequired,
+  onStartNewTestRunButtonClick: PropTypes.func.isRequired,
 };
 
 export default compose(
   withStyles(styles, {
     name: 'AppFrame',
   }),
+  connect(state => ({
+    isNewTestRunPopupOpen: state.isNewTestRunPopupOpen
+  }),
+    dispatch => ({
+      onReady: () => dispatch(connectToSocket()),
+      onStartNewTestRunButtonClick: () => dispatch(openNewTestRunPopup())
+    }))
 )(AppFrame);
