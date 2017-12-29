@@ -3,9 +3,10 @@ const DEBUG_LOG_LEVEL = 'debug';
 const ERROR_LOG_LEVEL = 'error';
 
 module.exports = class Logger {
-  constructor(io, id) {
+  constructor(io, id, storage=null) {
     this.io = io;
     this.id = id;
+    this.storage = storage;
   }
 
   info() {
@@ -35,5 +36,12 @@ module.exports = class Logger {
       level,
       id: this.id
     });
+
+    if (this.storage !== null) {
+      this.storage.save({
+        message,
+        level
+      });
+    }
   }
 }

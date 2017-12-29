@@ -156,7 +156,10 @@ export default compose(
   }),
   connect(state => ({}),
     dispatch => ({
-      onSubmit: data => dispatch(scheduleNewTestRunIfNeeded(data)),
+      onSubmit: data => {
+        dispatch(scheduleNewTestRunIfNeeded(data));
+        dispatch(closeNewTestRunPopup());
+      },
       onCancel: () => dispatch(closeNewTestRunPopup())
     })
   )

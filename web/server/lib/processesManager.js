@@ -2,6 +2,7 @@ class ProcessesManager {
   constructor() {
     this.processes = {};
     this.ioInstance = null;
+    this.logsReader = null;
   }
 
   set io(io) {
@@ -42,6 +43,16 @@ class ProcessesManager {
     this.ioInstance.emit('processes', {
       running: Object.keys(this.processes).length
     });
+  }
+
+  list() {
+    return Object.keys(this.processes).reduce((all, id) => {
+      all.push(Object.assign({},
+        this.processes[id],
+        {id}
+      ));
+      return all;
+    }, []);
   }
 }
 

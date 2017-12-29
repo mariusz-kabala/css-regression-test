@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const generateCookieCommand = require('../../../commands/generateCookie');
+const FileStorage = require('../../../logsPersistentStorage/file');
 const runCommand = require('../../../commands/run');
 const Logger = require('../lib/logger');
 const pm = require('../lib/processesManager');
@@ -15,7 +16,8 @@ module.exports = async function(req, res) {
     threshold,
     cookie
   });
-  const logger = new Logger(req.io, id);
+  const storage = new FileStorage(id);
+  const logger = new Logger(req.io, id, storage);
   let cookies = [];
 
   res.json({started: true});

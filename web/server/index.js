@@ -11,6 +11,8 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const compiler = webpack(config);
 
+const FileLogsReader = require('../../logsStoreReader/file');
+
 function injectIoToRequest(io) {
   return function (req, res, next) {
     req.io = io;
@@ -20,6 +22,7 @@ function injectIoToRequest(io) {
 };
 
 pm.io = io;
+pm.logsReader = new FileLogsReader();
 
 app.use(injectIoToRequest(io));
 

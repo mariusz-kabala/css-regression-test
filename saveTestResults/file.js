@@ -10,9 +10,9 @@ module.exports = function(
   return new Promise(async (resolve, reject) => {
     await fileSys.mkdir(dir);
 
-    fs.writeFile(`${dir}/${testRun}.json`, results, (err) => {
+    fs.writeFile(`${dir}/${testRun}.json`, results, err => {
       if (err) {
-        return reject(err)
+        return reject(err);
       }
 
       resolve();

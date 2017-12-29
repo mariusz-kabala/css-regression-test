@@ -58,5 +58,32 @@ module.exports = {
         resolve(dirPath);
       });
     });
+  },
+  readDir(dir) {
+    return new Promise((resolve, reject) => {
+      fs.readdir(dir, (err, items) => {
+        if (err) {
+          return reject(err);
+        }
+
+        resolve(items);
+      });
+    });
+  },
+  readJSONFile(filePath) {
+    return new Promise((resolve, reject) => {
+      fs.readFile(filePath, (err, data) => {
+        if (err) {
+          return reject(err);
+        }
+
+        try {
+          const content = JSON.parse(data);
+          resolve(content);
+        } catch (e) {
+          return reject(e);
+        }
+      });
+    });
   }
 }

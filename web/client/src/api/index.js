@@ -20,7 +20,6 @@ export const fetchTestDetails = testID => new Promise((resolve, reject) => {
 });
 
 export const createNewTestRun = data => new Promise((resolve, reject) => {
-  console.log(data)
   fetch(`/api/v1/test-runs/create`, {
     method: 'post',
     body: JSON.stringify(data),
@@ -32,4 +31,11 @@ export const createNewTestRun = data => new Promise((resolve, reject) => {
     .then(response => response.json())
     .then(json => resolve(json))
     .catch(error => reject(error));
-})
+});
+
+export const fetchCurrentlyRunningProcesses = () => new Promise((resolve, reject) => {
+  fetch('/api/v1/running/now', {method: 'get'})
+    .then(response => response.json())
+    .then(json => resolve(json))
+    .catch(error => reject(error));
+});

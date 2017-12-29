@@ -6,6 +6,7 @@ module.exports = {
   DIFF_DIR: resolve('./screenshots/diff'),
   SCENARIOS_DIR: resolve('./scenarios'),
   REPORTS_DIR: resolve('./reports'),
+  LOGS_DIR: resolve('./logs'),
   modules: {
     REPORTER: 'progressBar',
     RESULTS_FORMATTER: 'console',

@@ -107,6 +107,7 @@ const styles = theme => ({
   appBar: {
     background: 'linear-gradient(60deg, #8f42ff 40%, #c099ff 80%)',
     transition: theme.transitions.create('width'),
+    zIndex: '10',
     '@media print': {
       position: 'absolute',
     },
