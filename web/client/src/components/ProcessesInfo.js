@@ -6,12 +6,14 @@ import { withStyles } from 'material-ui/styles';
 import Paper from 'material-ui/Paper';
 import {
   toggleCurrentlyRunningProcesses,
-  fetchCurrentlyRunningProcessesifNeeded
+  fetchCurrentlyRunningProcessesIfNeeded,
+  goToRunningProcessDetailsIfNeeded
 } from '../actions/currentlyRunning';
 import ToolTip from 'react-portal-tooltip';
 import { CircularProgress } from 'material-ui/Progress';
 import Typography from 'material-ui/Typography';
 import Table, { TableBody, TableCell, TableRow } from 'material-ui/Table';
+import { withRouter } from 'react-router';
 
 const styles = theme => ({
   main: {
@@ -31,6 +33,9 @@ const styles = theme => ({
   },
   tooltip: {
     minWidth: '350px'
+  },
+  processInfo: {
+    cursor: 'pointer'
   }
 })
 
@@ -41,6 +46,14 @@ class ProcessesInfo extends React.Component {
     const { onClick, isActive } = this.props;
 
     onClick(!isActive);
+  }
+
+  getHandleProcessClick = id => event => {
+    const { onProcessClick, history } = this.props;
+
+    event.preventDefault();
+
+    onProcessClick(id, history);
   }
 
   renderLoader() {
@@ -67,7 +80,11 @@ class ProcessesInfo extends React.Component {
         <TableBody>
           { processes.map(process => {
             return (
-              <TableRow key={process.id}>
+              <TableRow
+                className={ classes.processInfo }
+                onClick={ this.getHandleProcessClick(process.id) }
+                key={process.id}
+              >
                 <TableCell>
                   <div>
                     <strong className={ classes.elName }>name:</strong> { process.testName }
@@ -131,11 +148,12 @@ class ProcessesInfo extends React.Component {
 ProcessesInfo.propTypes = {
   amountOfProcesses: PropTypes.number.isRequired,
   onClick: PropTypes.func.isRequired,
+  onProcessClick: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
-
 };
 
 export default compose(
+  withRouter,
   withStyles(styles, {
     name: 'ProcessesInfo',
   }),
@@ -148,9 +166,13 @@ export default compose(
     }),
     dispatch => ({
       onClick: (isActive) => {
-        isActive && dispatch(fetchCurrentlyRunningProcessesifNeeded());
+        isActive && dispatch(fetchCurrentlyRunningProcessesIfNeeded());
         dispatch(toggleCurrentlyRunningProcesses());
-      }
+      },
+      onProcessClick: (id, history) => dispatch(goToRunningProcessDetailsIfNeeded(
+        id,
+        history
+      ))
     })
   )
 )(ProcessesInfo)

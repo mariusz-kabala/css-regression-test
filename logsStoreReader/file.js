@@ -33,7 +33,7 @@ module.exports = class LogsFileReader {
       const filename = `${this.path}/${id}.json`;
 
       if (fs.existsSync(filename) === false) {
-        return null;
+        return resolve(null);
       }
 
       try {

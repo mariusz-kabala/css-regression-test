@@ -1,3 +1,5 @@
+const storage = require('../../../logsPersistentStorage/file');
+
 class ProcessesManager {
   constructor() {
     this.processes = {};
@@ -38,6 +40,7 @@ class ProcessesManager {
   }
 
   remove(id) {
+    storage.saveInfo(id, this.processes[id]);
     delete this.processes[id];
 
     this.ioInstance.emit('processes', {
@@ -53,6 +56,14 @@ class ProcessesManager {
       ));
       return all;
     }, []);
+  }
+
+  has(id) {
+    return typeof this.processes[id] !== 'undefined';
+  }
+
+  get(id) {
+    return this.processes[id];
   }
 }
 

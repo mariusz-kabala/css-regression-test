@@ -6,6 +6,7 @@ export const TOGGLE_CURRENTLY_RUNNING_PROCESSES_TOOLTIP = 'toggle-currently-runn
 export const REQUEST_CURRENTLY_RUNNING_PROCESSES_LIST = 'request-currently-running-processes';
 export const RECEIVE_CURRENTLY_RUNNING_PROCESSES_SUCCESS = 'receive-currently-running-processes-success';
 export const RECEIVE_CURRENTLY_RUNNING_PROCESSES_FAIL = 'receive-currently-running-processes-fail';
+export const GO_TO_RUNNING_PROCESS_DETAILS = 'go-to-running-process-details';
 
 export const openCurrentlyRunningProcessesTooltip = () => ({
   type: OPEN_CURRENTLY_RUNNING_PROCESSES_TOOLTIP
@@ -32,7 +33,12 @@ export const receiveCurrentlyRunningProcessesFail = () => ({
   type: RECEIVE_CURRENTLY_RUNNING_PROCESSES_FAIL
 });
 
-export function fetchCurrentlyRunningProcessesifNeeded() {
+export const goToRunningProcessDetails = id => ({
+  type: GO_TO_RUNNING_PROCESS_DETAILS,
+  id
+});
+
+export function fetchCurrentlyRunningProcessesIfNeeded() {
   return async function(dispatch, getState) {
     dispatch(requestCurrentlyRunningProcesses());
 
@@ -42,5 +48,13 @@ export function fetchCurrentlyRunningProcessesifNeeded() {
     } catch (err) {
       dispatch(receiveCurrentlyRunningProcessesFail(err));
     }
+  }
+}
+
+export function goToRunningProcessDetailsIfNeeded(id, history) {
+  return (dispatch, getState) => {
+    goToRunningProcessDetails(id);
+
+    history.push(`/processes/${id}`);
   }
 }

@@ -91,18 +91,34 @@ class AppDrawer extends React.Component {
     }
   }
 
+  getHandleScenarioClick = id => event => {
+    event.preventDefault();
+
+    console.log('go to scenario', id);
+  }
+
   render() {
     const {
       classes,
       className,
       disablePermanent,
       mobileOpen,
-      onRequestClose
+      onRequestClose,
+      scenarios
     } = this.props;
+    const used = [];
 
-    const items =[
-      <AppDrawerNavItem key={'item1'} title={'24h Auction channel'} />
-    ]
+    const items = scenarios.map((scenario, key) => {
+      if (used.indexOf(scenario.name) === -1) {
+        used.push(scenario.name);
+
+        return <AppDrawerNavItem
+          key={ `scenario-${key}` }
+          title={ scenario.name }
+          onClick={ this.getHandleScenarioClick(key) }
+        />
+      }
+    });
 
     const drawer = (
       <div className={classes.nav}>
@@ -124,8 +140,10 @@ class AppDrawer extends React.Component {
           <TestRunsList />
         </div>
         <List>
-          <AppDrawerNavItem title={'Channels'}>
-            { items }
+          <AppDrawerNavItem title={'Defined scenarios'}>
+            <ul>
+              { items }
+            </ul>
           </AppDrawerNavItem>
         </List>
       </div>

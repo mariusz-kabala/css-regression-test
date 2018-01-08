@@ -39,3 +39,10 @@ export const fetchCurrentlyRunningProcesses = () => new Promise((resolve, reject
     .then(json => resolve(json))
     .catch(error => reject(error));
 });
+
+export const fetchProcessDetails = id => new Promise((resolve, reject) => {
+  fetch(`/api/v1/running/${id}`, {method: 'get'})
+    .then(response => response.json())
+    .then(json => resolve(json))
+    .catch(error => reject(error));
+});
