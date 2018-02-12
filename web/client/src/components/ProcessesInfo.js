@@ -61,7 +61,7 @@ class ProcessesInfo extends React.Component {
 
     return (
       <div className={ classes.loader}>
-        <CircularProgress size={50} color="accent"/>
+        <CircularProgress size={ 50 } color="accent" />
       </div>
     );
   }

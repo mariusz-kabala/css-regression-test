@@ -18,6 +18,10 @@ import {
   CLOSE_NEW_TEST_RUN_POPUP
 } from '../actions/scheduleNewTestRun';
 import {
+  OPEN_GENERATE_NEW_TARGET_POPUP,
+  CLOSE_GENERATE_NEW_TARGET_POPUP
+} from '../actions/generateNewTarget';
+import {
   UPDATE_AMOUNT_OF_RUNNING_PROCESSES
 } from '../actions/io';
 import {
@@ -45,10 +49,14 @@ const initalStore = {
   isRunningProcessesInfoTooltipOpen: false,
   amountOfRunningProcesses: 0,
   currentlyRunningProcesses: [],
+  generateNewTarget: {
+    isOpen: false,
+  },
   isLoading: {
     scenarios: false,
     currentlyRunning: false,
     testRuns: false,
+    generateNewTarget: false,
     processDetails: null, // id of currently loading process or null if nothing is loading right now
     testDetails: null // id of currently loading test or null if nothing is loading right now
   },
@@ -144,12 +152,22 @@ const mapper = {
   [GO_TO_PROCESS_DETAILS]: (state, action) => Object.assign({}, state, {
     currentProcessID: action.id
   }),
+  [OPEN_GENERATE_NEW_TARGET_POPUP]: (state, action) => {
+    console.log('here!');
+    return state;
+  },
+  [CLOSE_GENERATE_NEW_TARGET_POPUP]: (state, action) => Object.assign({}, state, {
+    generateNewTarget: Object.assign({}, state.generateNewTarget, {
+      isOpen: false
+    })
+  }),
 }
 
 export default function reducers(state = initalStore, action) {
   const { type } = action;
-
+console.log('OPEN_GENERATE_NEW_TARGET_POPUP', OPEN_GENERATE_NEW_TARGET_POPUP, typeof mapper[type]);
   if (typeof mapper[type] === 'function') {
+    console.log('here@@@');
     return mapper[type](state, action);
   }
 

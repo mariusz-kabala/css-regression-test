@@ -13,8 +13,13 @@ import { withStyles } from 'material-ui/styles';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import { scheduleNewTestRunIfNeeded, closeNewTestRunPopup } from '../actions/scheduleNewTestRun';
+import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
+import Collapse from 'material-ui/transitions/Collapse';
 
 const styles = theme => ({
+  dialogMain: {
+    maxWidth: '800px'
+  },
   formItem: {
     marginTop: '10px'
   },
@@ -25,7 +30,7 @@ const styles = theme => ({
     width: '300px',
     marginRight: '10px'
   }
-})
+});
 
 class NewTestRunPopup extends React.Component {
   constructor(props) {
@@ -35,7 +40,8 @@ class NewTestRunPopup extends React.Component {
       url: 'https://auto1-training-1.auto1-test.com',
       testName: '',
       threshold: 0.5,
-      generateCookie: true
+      generateCookie: true,
+      fullScreen: false
     }
   }
 
@@ -47,6 +53,12 @@ class NewTestRunPopup extends React.Component {
 
   handleSelectChange = event => {
     this.setState({ threshold: event.target.value });
+  };
+
+  handleChooseTestClick = event => {
+    this.setState({
+      fullScreen: true
+    });
   };
 
   handleFormSubmit = event => {
@@ -71,18 +83,71 @@ class NewTestRunPopup extends React.Component {
     })
   }
 
+  renderChooseTestsButton() {
+    const { fullScreen } = this.state;
+
+    if (fullScreen === true) {
+      return null;
+    }
+
+    return (
+      <FormControl>
+        <Button
+          color="accent"
+          raised
+          onClick={ this.handleChooseTestClick }
+        >
+          Choose tests to run (all)
+        </Button>
+      </FormControl>
+    );
+  }
+
+  renderTestList() {
+    const { fullScreen } = this.state;
+    const { scenarios } = this.props;
+    const renderTestList = tests => (
+      <Collapse component="li" in={ true } timeout="auto" unmountOnExit>
+        <List disablePadding>
+          { tests.map(test => (
+            <ListItem>
+              <Checkbox checked={ false } onChange={ () => null } />
+              <ListItemText inset primary={ test.name } />
+            </ListItem>
+          )) }
+        </List>
+      </Collapse>
+    )
+
+    if (fullScreen === false) {
+      return null;
+    }
+
+    return (
+      <List>
+        { scenarios.map(scenario => (
+          <ListItem>
+            <ListItemText inset primary={ scenario.name } />
+            { renderTestList(scenario.tests) }
+          </ListItem>
+        )) }
+      </List>
+    );
+  }
+
   render() {
     const { open, classes } = this.props;
-    const { url, testName, threshold, generateCookie } = this.state;
+    const { url, testName, threshold, generateCookie , fullScreen} = this.state;
 
     return (
       <Dialog
         ignoreBackdropClick
         ignoreEscapeKeyUp
-        open={open}
+        open={ open }
+        fullScreen={ fullScreen }
       >
         <DialogTitle id="confirmation-dialog-title">Schedule a new test run</DialogTitle>
-        <DialogContent>
+        <DialogContent className={ classes.dialogMain }>
           <div style={{width: '500px'}}>
             <FormControl>
               <TextField
@@ -128,7 +193,11 @@ class NewTestRunPopup extends React.Component {
                   label={'Generate auth cookie'}
                 />
               </FormControl>
+              { this.renderChooseTestsButton() }
             </div>
+          </div>
+          <div>
+            { this.renderTestList() }
           </div>
         </DialogContent>
         <DialogActions>
@@ -147,14 +216,18 @@ class NewTestRunPopup extends React.Component {
 NewTestRunPopup.propTypes = {
   open: PropTypes.bool.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired
+  onCancel: PropTypes.func.isRequired,
+  scenarios: PropTypes.array.isRequired,
 };
 
 export default compose(
   withStyles(styles, {
     name: 'NewTestRunPopup',
   }),
-  connect(state => ({}),
+  connect(
+    state => ({
+      scenarios: state.scenarios
+    }),
     dispatch => ({
       onSubmit: data => {
         dispatch(scheduleNewTestRunIfNeeded(data));

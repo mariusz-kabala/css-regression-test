@@ -8,6 +8,7 @@ import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Ta
 import ExpansionPanel, {
   ExpansionPanelDetails,
   ExpansionPanelSummary,
+  ExpansionPanelActions
 } from 'material-ui/ExpansionPanel';
 import { GridList, GridListTile, GridListTileBar } from 'material-ui/GridList';
 import ExpandMoreIcon from 'material-ui-icons/ExpandMore';
@@ -15,6 +16,10 @@ import IconButton from 'material-ui/IconButton';
 import InfoIcon from 'material-ui-icons/Info';
 import Subheader from 'material-ui/List/ListSubheader';
 import { isObject } from 'lodash';
+import Button from 'material-ui/Button';
+import { openNewTestRunPopup } from '../actions/scheduleNewTestRun';
+import GenerateNewTargetPopup from '../components/GenerateNewTargetPopup';
+import { openGenerateNewTargetPopup } from '../actions/generateNewTarget';
 
 const styles = theme => ({
   urlsList: {
@@ -41,6 +46,9 @@ const styles = theme => ({
     display: 'table-cell',
     width: '50%',
     verticalAlign: 'top',
+  },
+  targetImage: {
+    maxWidth: '500px'
   }
 });
 
@@ -55,12 +63,31 @@ export class ScenariosContainer extends React.Component {
     });
   };
 
+  handleGenerateTargetImageClick = event => {
+    event.preventDefault();
+
+    const { onGenerateTargetImageClick } = this.props;
+
+    onGenerateTargetImageClick();
+  };
+
+  handleRunTestClick = event => {
+    event.preventDefault();
+
+    const { onRunTestClick } = this.props;
+
+    onRunTestClick();
+  };
+
   renderImages(images) {
+    const { classes } = this.props;
+
     return (
       <GridList cellHeight={180}>
         { images.map(image => (
           <GridListTile key={ image.file }>
             <img
+              className={ classes.targetImage }
               src={ `/api/v1/images/targets/${image.file}` }
               alt={ `${image.url} / ${image.res}` }
             />
@@ -144,6 +171,22 @@ export class ScenariosContainer extends React.Component {
             </div>
           </div>
         </ExpansionPanelDetails>
+        <ExpansionPanelActions>
+          <Button
+            onClick={ this.handleGenerateTargetImageClick }
+            raised
+            color="primary"
+          >
+            Generate new target images
+          </Button>
+          <Button
+            raised
+            color="accent"
+            onClick={ this.handleRunTestClick }
+          >
+            Run this test
+          </Button>
+        </ExpansionPanelActions>
       </ExpansionPanel>
     );
   }
@@ -169,10 +212,17 @@ export class ScenariosContainer extends React.Component {
           Scenarios:
         </Typography>
         { scenarios.map(scenario => this.renderScenario(scenario)) }
+        <GenerateNewTargetPopup />
       </div>
     )
   }
 }
+
+ScenariosContainer.propTypes = {
+  onRunTestClick: PropTypes.func.isRequired,
+  onGenerateTargetImageClick: PropTypes.func.isRequired,
+  scenarios: PropTypes.array.isRequired,
+};
 
 export default compose(
   withStyles(styles, {
@@ -182,6 +232,11 @@ export default compose(
     scenarios: state.scenarios
   }),
   dispatch => ({
-
+    onRunTestClick: () => {
+      dispatch(openNewTestRunPopup());
+    },
+    onGenerateTargetImageClick: () => {
+      dispatch(openGenerateNewTargetPopup());
+    }
   }))
 )(ScenariosContainer)
