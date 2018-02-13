@@ -74,7 +74,7 @@ function reduceChildRoutes(props, activePage, items, childPage, index) {
         key={index}
         title={pageToTitle(childPage)}
         href={childPage.pathname}
-        onClick={props.onRequestClose}
+        onClick={props.onClose}
       />,
     );
   }
@@ -103,7 +103,7 @@ class AppDrawer extends React.Component {
       className,
       disablePermanent,
       mobileOpen,
-      onRequestClose,
+      onClose,
       scenarios
     } = this.props;
     const used = [];
@@ -158,7 +158,7 @@ class AppDrawer extends React.Component {
             }}
             type="temporary"
             open={mobileOpen}
-            onRequestClose={onRequestClose}
+            onClose={onClose}
             ModalProps={{
               keepMounted: true,
             }}
@@ -189,7 +189,7 @@ AppDrawer.propTypes = {
   className: PropTypes.string,
   disablePermanent: PropTypes.bool.isRequired,
   mobileOpen: PropTypes.bool.isRequired,
-  onRequestClose: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
   onReady: PropTypes.func,
 };
 
