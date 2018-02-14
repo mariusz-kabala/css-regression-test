@@ -1,5 +1,6 @@
 module.exports = function() {
   return {
+    id: 2,
     name: 'Filters',
     url: {
       path: '/{lang}/app/merchant/cars',
@@ -11,6 +12,7 @@ module.exports = function() {
     },
     tests: [
       {
+        id: 4,
         name: 'Location filter',
         todo: {
           waitForSelector: '.carFilters',
@@ -18,6 +20,7 @@ module.exports = function() {
         }
       },
       {
+        id: 5,
         name: 'Manufacturers filter',
         todo: {
           waitForSelector: '.carFilters',
@@ -25,6 +28,7 @@ module.exports = function() {
         }
       },
       {
+        id: 6,
         name: 'Promotios filter',
         todo: {
           waitForSelector: '.carFilters',
@@ -32,6 +36,7 @@ module.exports = function() {
         }
       },
       {
+        id: 7,
         name: 'First Registration filter',
         todo: {
           waitForSelector: '.carFilters',
@@ -39,6 +44,7 @@ module.exports = function() {
         }
       },
       {
+        id: 8,
         name: 'Mileage filter',
         todo: {
           waitForSelector: '.carFilters',
@@ -46,6 +52,7 @@ module.exports = function() {
         }
       },
       {
+        id: 9,
         name: 'Body Types filter',
         todo: {
           waitForSelector: '.carFilters',
@@ -53,6 +60,7 @@ module.exports = function() {
         }
       },
       {
+        id: 10,
         name: 'Equipment filter',
         todo: {
           waitForSelector: '.carFilters',
@@ -60,6 +68,7 @@ module.exports = function() {
         }
       },
       {
+        id: 11,
         name: 'Fuel Types filter',
         todo: {
           waitForSelector: '.carFilters',
@@ -67,6 +76,7 @@ module.exports = function() {
         }
       },
       {
+        id: 12,
         name: 'Color filter',
         todo: {
           waitForSelector: '.carFilters',
@@ -74,6 +84,7 @@ module.exports = function() {
         }
       },
       {
+        id: 13,
         name: 'Power filter',
         todo: {
           waitForSelector: '.carFilters',
@@ -81,6 +92,7 @@ module.exports = function() {
         }
       },
       {
+        id: 14,
         name: 'Doors filter',
         todo: {
           waitForSelector: '.carFilters',

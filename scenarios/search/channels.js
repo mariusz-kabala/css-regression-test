@@ -1,5 +1,6 @@
 module.exports = function() {
   return {
+    id: 1,
     name: 'Channels',
     url: {
       path: '/{lang}/app/merchant/cars',
@@ -13,6 +14,7 @@ module.exports = function() {
     },
     tests: [
       {
+        id: 1,
         name: '24H Auctions Channel',
         todo: {
           waitForSelector: 'ul.carSearch__list.list-unstyled',
@@ -21,6 +23,7 @@ module.exports = function() {
         }
       },
       {
+        id: 2,
         name: 'Customer Auction Channel',
         todo: {
           waitForSelector: 'ul.carSearch__list.list-unstyled',
@@ -29,6 +32,7 @@ module.exports = function() {
         }
       },
       {
+        id: 3,
         name: 'Instant Purchase Channel',
         todo: {
           waitForSelector: 'ul.carSearch__list.list-unstyled',
