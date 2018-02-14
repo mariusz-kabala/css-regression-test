@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Select from 'material-ui/Select';
-import { MenuItem } from 'material-ui/Menu';
 import Input, { InputLabel } from 'material-ui/Input';
 import compose from 'recompose/compose';
 import { withStyles } from 'material-ui/styles';
@@ -9,6 +8,9 @@ import { connect } from 'react-redux';
 import { fetchTestRunsListIfNeeded } from '../actions/testRuns';
 import { goToTestDetailsIfNeeded } from '../actions/goToTest';
 import { withRouter } from 'react-router';
+import ListSubheader from 'material-ui/List/ListSubheader';
+import List, { ListItem, ListItemText } from 'material-ui/List';
+import Menu, { MenuItem, MenuList } from 'material-ui/Menu';
 
 const styles = theme => ({
   customWidth: {
@@ -18,10 +20,25 @@ const styles = theme => ({
   testRunLabel: {
     margin: 8,
     fontSize: 12
+  },
+  menuList: {
+    width: '100%',
+    maxWidth: 360
   }
 });
 
 export class TestRunsList extends React.Component {
+  state = {
+    anchorEl: null
+  }
+  handleClickListItem = event => {
+    this.setState({ anchorEl: event.currentTarget });
+  };
+
+  handleClose = () => {
+    this.setState({ anchorEl: null });
+  };
+
   componentDidMount() {
     const { onReady } = this.props;
 
@@ -30,38 +47,55 @@ export class TestRunsList extends React.Component {
     }
   }
 
-  handleChange = (event, index, value) => {
-    const { history, onGoToTest } = this.props;
+  handleChange = (event, index) => {
+    const { history, onGoToTest, testRuns } = this.props;
 
     if (typeof onGoToTest === 'function') {
-      onGoToTest(event.target.value, history);
+      onGoToTest(testRuns[event.target.value], history);
     }
+    this.setState({ anchorEl: null });
   }
 
   render() {
-    const { testRuns, classes } = this.props
+    const { testRuns, classes, selectedTestRun } = this.props
+    const { anchorEl } = this.state;
+
     return (
       <div>
-        <InputLabel
-          className={ classes.testRunLabel }
-          htmlFor="testRunsList"
-        >
-          Choose test run
-        </InputLabel>
-        <Select
-          value={ '' }
-          onChange={ this.handleChange }
-          className={ classes.customWidth }
-          input={ <Input id="testRunsList" value="" /> }
+        <List component="nav">
+          <ListItem
+            button
+            aria-haspopup="true"
+            aria-controls="lock-menu"
+            aria-label="Choose test run"
+            onClick={this.handleClickListItem}
+          >
+            <ListItemText
+              primary="Selected test run"
+              secondary={ selectedTestRun || 'Choose test run' }
+            />
+          </ListItem>
+        </List>
+        <Menu
+          anchorEl={anchorEl}
+          open={Boolean(anchorEl)}
+          onClose={this.handleClose}
+          className={classes.menuList}
         >
           { testRuns.map(testRun => {
             return (
-              <MenuItem key={ `id-${testRun}` } value={ testRun }>
+              <MenuItem
+                key={ `id-${testRun}` }
+                value={ testRun }
+                selected={testRun === selectedTestRun}
+                onClick={this.handleChange}
+              >
                 { testRun }
               </MenuItem>
             )
           }) }
-        </Select>
+        </Menu>
+        
       </div>
     )
   }
@@ -72,7 +106,8 @@ TestRunsList.propTypes = {
   onReady: PropTypes.func,
   onGoToTest: PropTypes.func,
   testRuns: PropTypes.array.isRequired,
-  isLoading: PropTypes.bool.isRequired
+  isLoading: PropTypes.bool.isRequired,
+  selectedTestRun: PropTypes.string
 }
 
 export default compose(
@@ -81,7 +116,8 @@ export default compose(
   connect(
     state => ({
       isLoading: state.isLoading.testRuns,
-      testRuns: state.testRuns
+      testRuns: state.testRuns,
+      selectedTestRun: state.currentTestDetailsID
     }),
     dispatch => ({
       onReady: () => dispatch(fetchTestRunsListIfNeeded()),
