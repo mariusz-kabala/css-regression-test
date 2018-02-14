@@ -15,13 +15,17 @@ import { connect } from 'react-redux';
 import { scheduleNewTestRunIfNeeded, closeNewTestRunPopup } from '../actions/scheduleNewTestRun';
 import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 import Collapse from 'material-ui/transitions/Collapse';
+import ExpandLess from 'material-ui-icons/ExpandLess';
+import ExpandMore from 'material-ui-icons/ExpandMore';
 
 const styles = theme => ({
   dialogMain: {
     maxWidth: '800px'
   },
   formItem: {
-    marginTop: '10px'
+    marginTop: '10px',
+    display: 'flex',
+    'align-items': 'center'
   },
   mainUrl: {
     width: '500px'
@@ -41,7 +45,9 @@ class NewTestRunPopup extends React.Component {
       testName: '',
       threshold: 0.5,
       generateCookie: true,
-      fullScreen: false
+      fullScreen: false,
+      testsListOpen: false,
+      selectedTests: new Set()
     }
   }
 
@@ -57,7 +63,7 @@ class NewTestRunPopup extends React.Component {
 
   handleChooseTestClick = event => {
     this.setState({
-      fullScreen: true
+      testsListOpen: !this.state.testsListOpen
     });
   };
 
@@ -83,12 +89,51 @@ class NewTestRunPopup extends React.Component {
     })
   }
 
-  renderChooseTestsButton() {
-    const { fullScreen } = this.state;
+  scenarioIsChecked = (scenario) => !scenario.tests.map(item => this.state.selectedTests.has(item.id)).includes(false)
 
-    if (fullScreen === true) {
-      return null;
+  updateSelectedTests = (testIds, checked) => {
+    const selectedTests = new Set(this.state.selectedTests)
+    testIds.forEach(id => {
+      if (checked) {
+        selectedTests.add(id)
+      } else {
+        selectedTests.delete(id)
+      }
+    })
+    
+    return selectedTests
+  }
+
+  handleSelectedScenarioCheckboxChange = (scenario) => {
+    return (event) => {
+      const checked = !this.scenarioIsChecked(scenario)
+      
+      const selectedTests = this.updateSelectedTests(
+        scenario.tests.map(test => test.id), 
+        checked
+      )
+
+      this.setState({
+        selectedTests
+      })
     }
+  }
+
+  handleSelectedTestCheckboxChange = (id) => {
+    return (event) => {
+      const selectedTests = this.updateSelectedTests(
+        [id], 
+        !this.state.selectedTests.has(id)
+      )
+
+      this.setState({
+        selectedTests
+      })
+    }
+  }
+
+  renderChooseTestsButton() {
+    const { testsListOpen, selectedTests } = this.state
 
     return (
       <FormControl>
@@ -97,41 +142,53 @@ class NewTestRunPopup extends React.Component {
           raised
           onClick={ this.handleChooseTestClick }
         >
-          Choose tests to run (all)
+          Choose tests to run ({selectedTests.size || 'all'})
+          { testsListOpen ? <ExpandLess /> : <ExpandMore /> }
         </Button>
       </FormControl>
     );
   }
 
   renderTestList() {
-    const { fullScreen } = this.state;
-    const { scenarios } = this.props;
+    const { testsListOpen, selectedTests } = this.state;
+    const { scenarios, classes } = this.props;
     const renderTestList = tests => (
-      <Collapse component="li" in={ true } timeout="auto" unmountOnExit>
-        <List disablePadding>
-          { tests.map(test => (
-            <ListItem>
-              <Checkbox checked={ false } onChange={ () => null } />
-              <ListItemText inset primary={ test.name } />
-            </ListItem>
-          )) }
-        </List>
-      </Collapse>
-    )
-
-    if (fullScreen === false) {
-      return null;
-    }
-
-    return (
-      <List>
-        { scenarios.map(scenario => (
-          <ListItem>
-            <ListItemText inset primary={ scenario.name } />
-            { renderTestList(scenario.tests) }
+      <List component="div" disablePadding>
+        { tests.map(test => (
+          <ListItem className={classes.nested} key={`id-${test.id}`} button onClick={ this.handleSelectedTestCheckboxChange(test.id) }>
+            <Checkbox
+              checked={ selectedTests.has(test.id) }
+              tabIndex={ -1 }
+              disableRipple
+            />
+            <ListItemText primary={ test.name } />
           </ListItem>
+          
         )) }
       </List>
+      
+    )
+
+    return (
+      <Collapse component="div" in={ testsListOpen } timeout="auto" unmountOnExit disablePadding>
+        <List disablePadding>
+          { scenarios.map(scenario => ([
+            <ListItem className={classes.listItem} key={`id-${scenario.name}`} button onClick={ this.handleSelectedScenarioCheckboxChange(scenario) }>
+              <Checkbox 
+                checked={ this.scenarioIsChecked(scenario) } 
+                
+                tabIndex={ -1 }
+                disableRipple
+              />
+              <ListItemText primary={ scenario.name } />
+            </ListItem>,
+            <ListItem dense className={classes.listItem} key={`id-${scenario.name}-1`}>
+              { renderTestList(scenario.tests) }
+            </ListItem>
+            
+          ])) }
+        </List>
+      </Collapse>
     );
   }
 
@@ -144,7 +201,6 @@ class NewTestRunPopup extends React.Component {
         ignoreBackdropClick
         ignoreEscapeKeyUp
         open={ open }
-        fullScreen={ fullScreen }
       >
         <DialogTitle id="confirmation-dialog-title">Schedule a new test run</DialogTitle>
         <DialogContent className={ classes.dialogMain }>
