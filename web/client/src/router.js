@@ -1,8 +1,8 @@
 import React from 'react';
 import {
-  BrowserRouter as Router,
+  Router,
   Route
-} from 'react-router-dom'
+} from 'react-router'
 import Home from './containers/Home'
 import Scenarios from './containers/Scenarios'
 import New from './containers/New'
@@ -11,11 +11,11 @@ import TestsList from './containers/TestsList'
 import AppFrame from './components/AppFrame';
 import ProcessDetails from './containers/ProcessDetails';
 
-import './history'
+import history from './history'
 
 export default function router() {
   return (
-    <Router>
+    <Router history={history}>
       <AppFrame>
         <Route exact path="/" component={ Home } />
         <Route path="/scenarios" component={ Scenarios } />

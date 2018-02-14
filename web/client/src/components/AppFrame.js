@@ -23,6 +23,7 @@ import ProcessesInfo from './ProcessesInfo';
 import { connectToSocket } from '../actions/io';
 import { openNewTestRunPopup } from '../actions/scheduleNewTestRun';
 
+import { withRouter } from 'react-router';
 // @todo Disaply a progress bar between route transitions
 NProgress.configure({
   template: `
@@ -234,6 +235,7 @@ AppFrame.propTypes = {
 };
 
 export default compose(
+  withRouter,
   withStyles(styles, {
     name: 'AppFrame',
   }),
