@@ -117,7 +117,7 @@ const WrappedComponent = compose(
   }),
 )(TestDetails)
 
-export default (id, results) => {
+export default (id, results, imagePath) => {
   const sheetsRegistry = new SheetsRegistry();
 
   // Create a theme instance.
@@ -139,6 +139,8 @@ export default (id, results) => {
           details={results.details}
           onReady={undefined}
           match={ { params: { id } } }
+          hideControls={ true }
+          imagePath={ imagePath || '../screenshots' }
         />
       </MuiThemeProvider>
     </JssProvider>

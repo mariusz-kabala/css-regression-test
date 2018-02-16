@@ -160,12 +160,19 @@ var TestDetailsContainer = exports.TestDetailsContainer = function (_React$Compo
       var _props3 = this.props,
           details = _props3.details,
           classes = _props3.classes,
-          id = _props3.match.params.id;
+          id = _props3.match.params.id,
+          hideControls = _props3.hideControls,
+          imagePath = _props3.imagePath;
 
       var scenario = void 0;
 
       return details.map(function (detail, key) {
-        var testBlock = _react2.default.createElement(_TestBlock2.default, _extends({ testID: id, key: 'test-' + key }, detail));
+        var testBlock = _react2.default.createElement(_TestBlock2.default, _extends({
+          testID: id,
+          key: 'test-' + key,
+          hideControls: hideControls,
+          imagePath: imagePath
+        }, detail));
         var result = [];
         if (detail.scenario !== scenario) {
           scenario = detail.scenario;
@@ -201,7 +208,9 @@ var TestDetailsContainer = exports.TestDetailsContainer = function (_React$Compo
 TestDetailsContainer.propTypes = {
   onReady: _propTypes2.default.func,
   summary: _propTypes2.default.object.isRequired,
-  details: _propTypes2.default.array.isRequired
+  details: _propTypes2.default.array.isRequired,
+  hideControls: _propTypes2.default.bool,
+  imagePath: _propTypes2.default.string
 };
 
 exports.default = (0, _compose2.default)((0, _styles.withStyles)(styles, {

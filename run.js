@@ -133,7 +133,7 @@ program
       });
 
       const testResultsFormatter = loader.getResultsFormatter(program.formatter);
-      const formattedResults = testResultsFormatter(results);
+      const formattedResults = testResultsFormatter(results, testRun);
 
       reportTool.reportProgress(formattedResults);
 

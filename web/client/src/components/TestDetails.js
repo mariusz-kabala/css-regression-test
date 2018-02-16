@@ -76,11 +76,17 @@ export class TestDetailsContainer extends React.Component {
   }
 
   renderDetails() {
-    const { details, classes, match: { params: { id } } } = this.props;
+    const { details, classes, match: { params: { id } }, hideControls, imagePath } = this.props;
     let scenario;
 
     return details.map((detail, key) => {
-      const testBlock = <TestBlock testID={ id } key={ `test-${key}` } { ...detail } />
+      const testBlock = <TestBlock 
+        testID={ id } 
+        key={ `test-${key}` } 
+        hideControls={ hideControls }
+        imagePath={ imagePath }
+        { ...detail } 
+      />
       const result = []
       if (detail.scenario !== scenario) {
         scenario = detail.scenario;
@@ -113,6 +119,8 @@ TestDetailsContainer.propTypes = {
   onReady: PropTypes.func,
   summary: PropTypes.object.isRequired,
   details: PropTypes.array.isRequired,
+  hideControls: PropTypes.bool,
+  imagePath: PropTypes.string
 }
 
 export default compose(

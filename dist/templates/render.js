@@ -137,7 +137,7 @@ var WrappedComponent = (0, _compose2.default)((0, _styles.withStyles)(styles, {
   name: 'TestDetailsContainer'
 }))(_TestDetails2.default);
 
-exports.default = function (id, results) {
+exports.default = function (id, results, imagePath) {
   var sheetsRegistry = new _jss.SheetsRegistry();
 
   // Create a theme instance.
@@ -161,7 +161,9 @@ exports.default = function (id, results) {
         summary: results.summary,
         details: results.details,
         onReady: undefined,
-        match: { params: { id: id } }
+        match: { params: { id: id } },
+        hideControls: true,
+        imagePath: imagePath || '../screenshots'
       })
     )
   ));

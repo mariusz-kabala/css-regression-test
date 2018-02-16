@@ -52,6 +52,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var styles = function styles(theme) {
   return {
+    hidden: {
+      display: 'none'
+    },
     testCard: {
       position: 'relative',
       minWidth: '240px'
@@ -210,26 +213,39 @@ var TestBlock = function (_React$Component) {
   }, {
     key: 'getTargetImageUrl',
     value: function getTargetImageUrl() {
-      var fileName = this.props.fileName;
+      var _props2 = this.props,
+          fileName = _props2.fileName,
+          imagePath = _props2.imagePath;
 
+      if (!!imagePath) {
+        return imagePath + '/targets/' + fileName;
+      }
       return '/api/v1/images/targets/' + fileName;
     }
   }, {
     key: 'getDiffImageUrl',
     value: function getDiffImageUrl() {
-      var _props2 = this.props,
-          fileName = _props2.fileName,
-          testID = _props2.testID;
+      var _props3 = this.props,
+          fileName = _props3.fileName,
+          testID = _props3.testID,
+          imagePath = _props3.imagePath;
 
+      if (!!imagePath) {
+        return imagePath + '/diff/' + testID + '/' + fileName;
+      }
       return '/api/v1/test-runs/' + testID + '/images/' + fileName + '/diff';
     }
   }, {
     key: 'getTestImageUrl',
     value: function getTestImageUrl() {
-      var _props3 = this.props,
-          fileName = _props3.fileName,
-          testID = _props3.testID;
+      var _props4 = this.props,
+          fileName = _props4.fileName,
+          testID = _props4.testID,
+          imagePath = _props4.imagePath;
 
+      if (!!imagePath) {
+        return imagePath + '/tests/' + testID + '/' + fileName;
+      }
       return '/api/v1/test-runs/' + testID + '/images/' + fileName + '/test';
     }
   }, {
@@ -240,13 +256,15 @@ var TestBlock = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _this2 = this;
+      var _classNames,
+          _this2 = this;
 
-      var _props4 = this.props,
-          children = _props4.children,
-          classes = _props4.classes,
-          testName = _props4.testName,
-          rawMisMatchPercentage = _props4.rawMisMatchPercentage;
+      var _props5 = this.props,
+          children = _props5.children,
+          classes = _props5.classes,
+          testName = _props5.testName,
+          rawMisMatchPercentage = _props5.rawMisMatchPercentage,
+          hideControls = _props5.hideControls;
 
       var testImage = this.getTestImageUrl();
       var diffImage = this.getDiffImageUrl();
@@ -262,7 +280,7 @@ var TestBlock = function (_React$Component) {
           this.renderSubheader()
         ),
         _react2.default.createElement(_ExpandMore2.default, {
-          className: (0, _classnames2.default)(classes.expandBtn, _defineProperty({}, classes.expandBtn__open, this.state.expanded)),
+          className: (0, _classnames2.default)(classes.expandBtn, (_classNames = {}, _defineProperty(_classNames, classes.expandBtn__open, this.state.expanded), _defineProperty(_classNames, classes.hidden, !!hideControls), _classNames)),
           onClick: this.handleExpandClick
         }),
         _react2.default.createElement(
@@ -346,7 +364,7 @@ var TestBlock = function (_React$Component) {
             ),
             _react2.default.createElement(
               _Card.CardActions,
-              { className: classes.testActions },
+              { className: (0, _classnames2.default)(classes.testActions, _defineProperty({}, classes.hidden, !!hideControls)) },
               _react2.default.createElement(
                 _Button2.default,
                 { className: classes.testBtn },
@@ -369,7 +387,9 @@ var TestBlock = function (_React$Component) {
 
 TestBlock.propTypes = {
   children: _propTypes2.default.node,
-  classes: _propTypes2.default.object.isRequired
+  classes: _propTypes2.default.object.isRequired,
+  hideControls: _propTypes2.default.bool,
+  imagePath: _propTypes2.default.string
 };
 
 exports.default = (0, _compose2.default)((0, _styles.withStyles)(styles, {

@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rm -rf ./dist/* && ./node_modules/.bin/babel . -d dist --presets es2015,react,stage-0 --plugins=transform-async-to-generator,transform-class-properties,transform-object-assign,transform-object-rest-spread,transform-imports,add-module-exports --ignore=node_modules"
+    "build-all": "rm -rf ./dist/* && ./node_modules/.bin/babel . -d dist --presets es2015,react,stage-0 --plugins=transform-async-to-generator,transform-class-properties,transform-object-assign,transform-object-rest-spread,transform-imports,add-module-exports --ignore=node_modules",
+    "build-report": "rm -rf ./dist/* && ./node_modules/.bin/babel ./web/client -d dist/web/client --presets es2015,react,stage-0 --plugins=transform-async-to-generator,transform-class-properties,transform-object-assign,transform-object-rest-spread,transform-imports,add-module-exports --ignore=node_modules && ./node_modules/.bin/babel ./templates -d dist/templates --presets es2015,react,stage-0 --plugins=transform-async-to-generator,transform-class-properties,transform-object-assign,transform-object-rest-spread,transform-imports,add-module-exports --ignore=node_modules"
   },
   "author": "Mariusz Kabala",
   "license": "MIT",
