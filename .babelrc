@@ -1,0 +1,16 @@
+{
+  "presets": [
+    "react",
+    "stage-0"
+  ],
+  "plugins": [
+    "transform-react-jsx",
+    "transform-async-to-generator",
+    "transform-class-properties",
+    "transform-object-assign",
+    "transform-object-rest-spread"
+  ],
+  "ignore": [
+    "node_modules"
+  ]
+}

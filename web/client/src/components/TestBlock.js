@@ -9,6 +9,9 @@ import Button from 'material-ui/Button';
 import Card, { CardHeader, CardContent, CardMedia, CardActions } from 'material-ui/Card';
 
 const styles = theme => ({
+  hidden: {
+    display: 'none'
+  },
   testCard: {
     position: 'relative',
     minWidth: '240px'
@@ -135,24 +138,33 @@ class TestBlock extends React.Component {
   }
 
   getTargetImageUrl() {
-    const { fileName } = this.props;
+    const { fileName, imagePath } = this.props;
+    if(!!imagePath) {
+      return `${imagePath}/targets/${fileName}`
+    }
     return `/api/v1/images/targets/${fileName}`;
   }
 
   getDiffImageUrl() {
-    const { fileName, testID } = this.props;
+    const { fileName, testID, imagePath } = this.props;
+    if(!!imagePath) {
+      return `${imagePath}/diff/${testID}/${fileName}`
+    }
     return `/api/v1/test-runs/${testID}/images/${fileName}/diff`;
   }
 
   getTestImageUrl() {
-    const { fileName, testID } = this.props;
+    const { fileName, testID, imagePath } = this.props;
+    if(!!imagePath) {
+      return `${imagePath}/tests/${testID}/${fileName}`
+    }
     return `/api/v1/test-runs/${testID}/images/${fileName}/test`;
   }
 
   getOpenNewTab(img) { window.open(img, '_blank'); }
 
   render() {
-    const { children, classes, testName, rawMisMatchPercentage } = this.props;
+    const { children, classes, testName, rawMisMatchPercentage, hideControls } = this.props;
     const testImage = this.getTestImageUrl();
     const diffImage = this.getDiffImageUrl();
     const targetImage = this.getTargetImageUrl();
@@ -164,7 +176,10 @@ class TestBlock extends React.Component {
         <CardContent className={classes.testCard__subheader_container}>{ this.renderSubheader() }</CardContent>
 
         <ExpandMoreIcon
-          className={classNames(classes.expandBtn, { [classes.expandBtn__open]: this.state.expanded })}
+          className={classNames(classes.expandBtn, { 
+            [classes.expandBtn__open]: this.state.expanded,
+            [classes.hidden]: !!hideControls 
+          })}
           onClick={this.handleExpandClick}
         />
         <Collapse in={this.state.expanded} transitionDuration="auto" unmountOnExit>
@@ -203,7 +218,9 @@ class TestBlock extends React.Component {
               </div>
             </div>
 
-            <CardActions className={ classes.testActions }>
+            <CardActions className={ classNames(classes.testActions, {
+              [classes.hidden]: !!hideControls 
+            }) }>
               <Button className={ classes.testBtn }>APPROVE</Button>
               <Button className={ classes.testBtn }>RE-RUN</Button>
             </CardActions>
@@ -216,7 +233,9 @@ class TestBlock extends React.Component {
 
 TestBlock.propTypes = {
   children: PropTypes.node,
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  hideControls: PropTypes.bool,
+  imagePath: PropTypes.string
 };
 
 export default compose(

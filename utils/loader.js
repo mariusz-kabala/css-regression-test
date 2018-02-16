@@ -10,6 +10,7 @@ module.exports = {
   getResultFormatter: function(name=constants.modules.RESULTS_FORMATTER) {
     switch (name) {
       case 'json':
+      case 'html': // html uses json as input
         return require('../formatters/result/json');
 
       default:
@@ -21,12 +22,17 @@ module.exports = {
       case 'json':
         return require('../formatters/results/json');
 
+      case 'html':
+        return require('../formatters/results/html');  
+
       default:
         return require('../formatters/results/console');
     }
   },
   getResultsSaver: function(name=constants.modules.RESULTS_SAVER) {
     switch (name) {
+      case 'html':
+        return require('../saveTestResults/html');
       default:
         return require('../saveTestResults/file');
     }
