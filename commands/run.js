@@ -27,7 +27,8 @@ module.exports = function({
   screenshotsDir,
   logger,
   reporter,
-  cookies
+  cookies,
+  proxy
 }) {
   const reportTool = require('../utils/report')(reporter);
 
@@ -51,7 +52,8 @@ module.exports = function({
         workingDir,
         logger,
         defaultConfig,
-        url
+        url,
+        proxy
       });
       await driver.init();
       await driver.setCookies(cookies);

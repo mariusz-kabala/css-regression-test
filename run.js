@@ -58,6 +58,10 @@ program
     'Save the result of the test run so it can be checked later',
     'file'
   )
+  .option(
+    '--proxy [value]',
+    'Run requests through proxy host:port (HTTPS errors will be ignored)'
+  )
   .parse(process.argv);
 
 (async () => {
@@ -71,13 +75,16 @@ program
     try {
       cookies = await generateCookie({
         url: program.url,
-        logger
+        logger,
+        proxy: program.proxy
       });
     } catch (e) {
       logger.error('Command GENERATE COOKIE failed', e);
       return;
     }
   }
+
+
 
   if (program.run === true) {
     const run = require('./commands/run');
@@ -90,7 +97,8 @@ program
         screenshotsDir: program.testDir,
         logger,
         reporter,
-        cookies
+        cookies,
+        proxy: program.proxy
       });
     } catch(e) {
       logger.error('Command RUN failed', e);

@@ -4,7 +4,8 @@ const Driver = getDriver();
 
 module.exports = function({
   url,
-  logger
+  logger,
+  proxy
 }) {
   return new Promise(async (resolve, reject) => {
 
@@ -15,7 +16,8 @@ module.exports = function({
         scenario: cookie,
         logger,
         defaultConfig,
-        url
+        url,
+        proxy
       });
     } catch (e) {
       return reject(e);
