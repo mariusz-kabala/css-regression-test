@@ -29,9 +29,13 @@ One issue: FOMO-messages might appear/disappear at different time depending on t
 Example usage:
 
 1. Generate fake-api data and initial screenshots (approve mode).
-`--hosts` -- list of hostnames to intercept
-`--port` -- port of the MITM proxy, default is 8081
-`--api` -- file to write fake-api data to. In this case it is `output4.json`
+
+- `--hosts` -- list of hostnames to intercept
+
+- `--port` -- port of the MITM proxy, default is 8081
+
+- `--api` -- file to write fake-api data to. In this case it is `output4.json`
+
 
 ```
 node index.js -u https://auto1-training-1.auto1-test.com --run -c -t 0.9 --save json --approve --port=8081 --api=output4.json --hosts="auto1-training-1.auto1-test.com/en/app/,ux-qa-1.mp.auto1-test.com/v1/"
