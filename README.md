@@ -6,21 +6,51 @@ How to run web interface
 ```
 nodemon web/server/index.js
 ```
-TODO
+
+How to save HTML report (instead of json)
+=========================
+```
+node index.js --results --save html --formatter html <...other parameters>
+```
+
+Report tool uses the same layout as frontend app. If you change view in `web/client/`, run `yarn build-report` to rebuild components for report tool to pick up changes.
+
+How to work with proxy in default mode
 ========================
 
-1. Should be pretty easy to integrate proxy into css regression tool, so you don't need to run separate process manually.
+By default `css-regression-tool` is able to run MITM proxy and intercept/rewrite requests from fake-api JSON file.
 
-How to work with proxy
+Idea is simple: you run `css-regression-tool` in approve mode and it starts MITM proxy to record requests to specified domains. It runs through all scenarios and runs all requests in correct order while proxy saves them to json file.
+
+Then when you have updated your code and want to do regression tests, you run `css-regression-tool` in test mode providing the same JSON file. Requests should (theoretically) run in the same order. They would be intercepted and served by proxy from JSON and responses should be consistent across several runs.
+
+One issue: FOMO-messages might appear/disappear at different time depending on test machine/browser speed (i.e. randomly), thus screenshots might be different and tests fail.
+
+Example usage:
+
+1. Generate fake-api data and initial screenshots (approve mode).
+`--hosts` -- list of hostnames to intercept
+`--port` -- port of the MITM proxy, default is 8081
+`--api` -- file to write fake-api data to. In this case it is `output4.json`
+
+```
+node index.js -u https://auto1-training-1.auto1-test.com --run -c -t 0.9 --save json --approve --port=8081 --api=output4.json --hosts="auto1-training-1.auto1-test.com/en/app/,ux-qa-1.mp.auto1-test.com/v1/"
+```
+
+2. When you made changes to your code and deployed it somewhere (or locally), run `css-regression-tool` in test mode. Provide the same `output4.json` as before to have consistent results. Note that now `hosts` include `css-regression-demo-auto1-qa-4.auto1-test.com` instead of `auto1-training-1.auto1-test.com`
+
+```
+node index.js -u https://css-regression-demo-auto1-qa-4.auto1-test.com --run -c -t 0.01 --save html --formatter html --results --port=8081 --api=output4.json --hosts="css-regression-demo-auto1-qa-4.auto1-test.com/en/app/,ux-qa-1.mp.auto1-test.com/v1/"
+```
+
+Report will be saved to html file in `reports` folder.
+
+How to work with proxy in stand-alone mode
 =========================
 
-Idea is simple: you start a proxy in "record" mode and run `css-regression-tool` in approve mode. It runs through all scenarios and runs all requests in order while proxy saves them to json file.
+Proxy is able to work as a standalone app. 
 
-Then when you have updated your code and want to do regression tests, you start proxy in "replay" mode, providing the same json file. Run `css-regression-tool` through the same proxy, requests should (theoretically) run in the same order. The requests then would be intercepted and served by proxy from JSON and responses should be consistent across several runs.
-
-One issue: FOMO-messages might appear/disappear at differents time depending on test machine/browser speed (i.e. randomly), thus screenshots might be different and tests fail.
-
-Recording session with proxy
+Recording session with proxy in stand-alone mode
 =======================
 
 ```
@@ -47,7 +77,7 @@ node index.js -u https://auto1-training-1.auto1-test.com --run -c -t 0.9 --save 
 
 Proxy will intercept and save all requests coming to http(s)://localhost:8080/en/app/* and to http(s)://ux-qa-1.mp.auto1-test.com/v1/* to `output.json` in the order of their execution.
 
-Replaying session with proxy
+Replaying session with proxy in stand-alone mode
 =======================
 
 ```
@@ -72,15 +102,7 @@ or
 node index.js -u https://auto1-training-1.auto1-test.com --run -c -t 0.9 --save json --formatter json --results --proxy="localhost:8081"
 ```
 
-How to save HTML report (instead of json)
-=========================
-```
-node index.js --results --save html --formatter html <...other parameters>
-```
-
-Report tool uses the same layout as frontend app. If you change view in `web/client/`, run `yarn build-report` to rebuild components for report tool to pick up changes.
-
-Example
+Example in stand-alone mode
 ======================
 
 ```

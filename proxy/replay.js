@@ -39,17 +39,17 @@ function setupInterceptionReplay(logger, ctx) {
       // todo: improve
 
       const request = interceptedRequests.shift();
-      console.log(url);
-      console.log(request.url);
-      console.log(url === request.url);
+      // console.log(url); // uncomment if something goes wrong with requests
+      // console.log(request.url);
+      // console.log(url === request.url);
 
-      console.log(result.request.body);
-      console.log(request.request.body);
-      console.log(result.request.body === request.request.body);
+      // console.log(result.request.body);
+      // console.log(request.request.body);
+      // console.log(result.request.body === request.request.body);
 
-      console.log(result.method);
-      console.log(request.method);
-      console.log(result.method === request.method);
+      // console.log(result.method);
+      // console.log(request.method);
+      // console.log(result.method === request.method);
       if(url === request.url && result.request.body === request.request.body && result.method === request.method) {
         logger.info('intercepted and will be rewritten!!!', url);
         logger.info(`number of requests left in stack ${interceptedRequests.length}`);
