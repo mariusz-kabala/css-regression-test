@@ -6,6 +6,10 @@ How to run web interface
 ```
 nodemon web/server/index.js
 ```
+TODO
+========================
+
+1. Should be pretty easy to integrate proxy into css regression tool, so you don't need to run separate process manually.
 
 How to work with proxy
 =========================
@@ -117,7 +121,4 @@ Set Web proxy (http) and Secure web proxy (https) to `localhost` : `8081` (or po
 
 Now proxy should be able to intercept traffic.
 
-TODO
-========================
 
-1. Integrate proxy into css regression tool
