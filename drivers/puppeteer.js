@@ -3,14 +3,15 @@ const _ = require('lodash');
 const constants = require('../constants');
 
 class PuppeteerDriver {
-  constructor({scenario, workingDir, defaultConfig, url, logger}) {
+  constructor({scenario, workingDir, defaultConfig, url, logger, proxy}) {
     this.scenario = scenario;
     this.viewport = undefined;
     this.workDir = workingDir;
     this.defaultConfig = defaultConfig;
     this.url = url;
     this.logger = logger;
-    this.cookies = []
+    this.cookies = [];
+    this.proxy = proxy;
 
     this.actionsMapper = {
       [constants.actions.WAIT_FOR_SELECTOR]: this.actionWaitForSelector.bind(this),
@@ -31,9 +32,19 @@ class PuppeteerDriver {
 
   init() {
     return new Promise((resolve, reject) => {
-      puppeteer.launch({headless: true}).then(browser => {
+      const options = {
+        headless: true
+      }
+      if(!!this.proxy) {
+        options.args = [
+          `--proxy-server=${this.proxy}`
+        ];
+        options.ignoreHTTPSErrors = true;
+      }
+
+      puppeteer.launch(options).then(browser => {
         this.browser = browser;
-        this.logger.debug('Initialize new browser instance');
+        this.logger.debug('Initialize new browser instance', options);
         resolve();
       });
     });

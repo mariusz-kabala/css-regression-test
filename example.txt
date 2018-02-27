@@ -1,0 +1,3 @@
+node index.js -u https://auto1-training-1.auto1-test.com --run -c -t 0.9 --save json --approve --port=8081 --api=output4.json --hosts="auto1-training-1.auto1-test.com/en/app/,ux-qa-1.mp.auto1-test.com/v1/"
+
+node index.js -u https://css-regression-demo-auto1-qa-4.auto1-test.com --run -c -t 0.01 --save html --formatter html --results --port=8081 --api=output4.json --hosts="css-regression-demo-auto1-qa-4.auto1-test.com/en/app/,ux-qa-1.mp.auto1-test.com/v1/"

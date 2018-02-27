@@ -2,6 +2,7 @@ const program = require('commander');
 const constants = require('./constants');
 const logger = require('./utils/logger');
 const loader = require('./utils/loader');
+const proxy = require('./proxy/proxy');
 
 program
   .version('0.0.1')
@@ -58,11 +59,42 @@ program
     'Save the result of the test run so it can be checked later',
     'file'
   )
+  .option(
+    '--proxy [value]',
+    'Run requests through proxy host:port (HTTPS errors will be ignored)'
+  )
+  .option('-p, --port [value]', 'Port to run proxy on', 8081)
+  .option('-h, --hosts [value]', 'List of hosts to intercept data from')
+  .option('--api [value]', 'File with api requests mocks (to save to or read from)')
   .parse(process.argv);
 
 (async () => {
   const reporter = loader.getReporter(program.reporter);
   let cookies = [];
+
+  const port = program.port || 8081, customProxy = !!program.api && `localhost:${port}`;
+  
+  if(customProxy) {
+    let hosts = [], excludes = [];
+    if (!!program.hosts) {
+      hosts = program.hosts.split(',');
+    }
+  
+    if(hosts.length <= 0) {
+      logger.error('Please provide valid --hosts');
+      process.exit();
+    }
+  
+    if (!!program.excludes) {
+      excludes = program.excludes.split(',');
+    }
+
+    if (program.rawArgs.indexOf('--approve') > -1) {
+      proxy.record(program.api, logger, port, hosts, excludes);
+    } else {
+      proxy.replay(program.api, logger, port, hosts, excludes);
+    }
+  }
 
   if (program.generateCookie === true) {
     const generateCookie = require('./commands/generateCookie');
@@ -71,13 +103,16 @@ program
     try {
       cookies = await generateCookie({
         url: program.url,
-        logger
+        logger,
+        proxy: customProxy
       });
     } catch (e) {
       logger.error('Command GENERATE COOKIE failed', e);
       return;
     }
   }
+
+
 
   if (program.run === true) {
     const run = require('./commands/run');
@@ -90,7 +125,8 @@ program
         screenshotsDir: program.testDir,
         logger,
         reporter,
-        cookies
+        cookies,
+        proxy: customProxy
       });
     } catch(e) {
       logger.error('Command RUN failed', e);
@@ -150,4 +186,8 @@ program
       logger.error('Command RESULTS failed', e);
     }
   }
+
+  await new Promise(resolve => setTimeout(() => resolve(), 2000)); // 2 sec delay
+  logger.info('DONE');
+  process.exit();
 })();
